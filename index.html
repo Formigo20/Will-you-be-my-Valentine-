@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pedido especial 💘</title>
+  <style>
+    :root { --bg1:#0b1020; --bg2:#170b2e; --card:#ffffff12; --txt:#f6f7ff; }
+    * { box-sizing: border-box; }
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--txt);
+      background: radial-gradient(1200px 700px at 20% 20%, #ff4d6d33, transparent 55%),
+                  radial-gradient(900px 600px at 80% 30%, #7c3aed33, transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow:hidden;
+    }
+    .card{
+      width:min(720px, 92vw);
+      background: var(--card);
+      border:1px solid #ffffff1f;
+      border-radius: 24px;
+      padding: 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px #00000055;
+      position: relative;
+    }
+    .badge{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:8px 12px; border-radius: 999px;
+      background:#ffffff14; border:1px solid #ffffff1f;
+      font-size: 14px;
+    }
+    h1{ margin:14px 0 8px; font-size: clamp(28px, 4vw, 44px); line-height:1.05; }
+    p{ margin: 8px 0; font-size: clamp(16px, 2.2vw, 18px); color:#f1f2ffcc; }
+    .cta{
+      margin-top: 18px;
+      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+    }
+    button{
+      border:0; cursor:pointer; user-select:none;
+      padding: 14px 18px; border-radius: 14px;
+      font-weight: 700; font-size: 16px;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .yes{
+      background: linear-gradient(135deg, #ff4d6d, #ff9f1c);
+      color:#1b0b12;
+      box-shadow: 0 12px 30px #ff4d6d44;
+    }
+    .yes:hover{ transform: translateY(-2px); filter: brightness(1.03); }
+    .hint{ font-size: 13px; opacity:.75; }
+    .final{
+      display:none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background:#22c55e1a;
+      border:1px solid #22c55e44;
+      border-radius: 14px;
+      color:#dcffe5;
+      font-weight: 600;
+    }
+    .footer{
+      margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; opacity:.7; font-size:13px;
+    }
+    .heart{
+      position:absolute; inset:auto 18px 18px auto;
+      font-size: 22px; opacity:.85;
+      transform: rotate(10deg);
+    }
+    /* confetti */
+    .confetti{
+      position: fixed; top:-10px; width:10px; height:14px;
+      opacity:.9; border-radius: 3px;
+      animation: fall linear forwards;
+      pointer-events:none;
+    }
+    @keyframes fall{
+      to{ transform: translateY(calc(100vh + 40px)) rotate(720deg); opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card" role="main">
+    <div class="badge">💌 <span>Mensagem secreta (só para ti)</span></div>
+
+    <h1 id="title">Queres ser a minha Valentim? 💘</h1>
+    <p id="copy">
+      Prometo tratar-te como a minha pessoa favorita (porque és).
+      Topas fazer do dia 14 o nosso dia?
+    </p>
+
+    <div class="cta">
+      <button class="yes" id="yesBtn">SIM, ACEITO! 😍</button>
+      <span class="hint">*Aviso: esta página só aceita uma resposta.</span>
+    </div>
+
+    <div class="final" id="finalBox">
+      🥰 YESSS! Então está combinado. Prepara-te: encontro, mimos e um plano que eu tratei.
+    </div>
+
+    <div class="footer">
+      <span>💡 Dica: podes personalizar o texto no topo do ficheiro.</span>
+      <span>🔒 Não há botão “não”.</span>
+    </div>
+
+    <div class="heart">💗</div>
+  </main>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const finalBox = document.getElementById("finalBox");
+
+    function launchConfetti(count = 140){
+      const colors = ["#ff4d6d", "#ff9f1c", "#7c3aed", "#22c55e", "#60a5fa", "#f472b6"];
+      for(let i=0;i<count;i++){
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random()*100 + "vw";
+        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+        c.style.transform = `translateY(0) rotate(${Math.random()*360}deg)`;
+        c.style.animationDuration = (2.2 + Math.random()*1.6) + "s";
+        c.style.animationDelay = (Math.random()*0.25) + "s";
+        c.style.width = (6 + Math.random()*10) + "px";
+        c.style.height = (8 + Math.random()*16) + "px";
+        document.body.appendChild(c);
+        c.addEventListener("animationend", ()=> c.remove());
+      }
+    }
+
+    yesBtn.addEventListener("click", () => {
+      yesBtn.disabled = true;
+      yesBtn.textContent = "Awwww 😭💘";
+      finalBox.style.display = "block";
+      launchConfetti();
+      // opcional: vibração em telemóveis (se suportado)
+      if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
+    });
+  </script>
+</body>
+</html>
