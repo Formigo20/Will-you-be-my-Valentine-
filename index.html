@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="pt-PT">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pedido especial 💘</title>
+  <title>One Question 💘</title>
 
   <style>
     :root { --card:#ffffff12; --txt:#f6f7ff; }
@@ -25,7 +25,7 @@
     }
 
     .card{
-      width:min(720px, 92vw);
+      width:min(760px, 92vw);
       background: var(--card);
       border:1px solid #ffffff1f;
       border-radius: 24px;
@@ -37,7 +37,7 @@
 
     h1{
       margin:0 0 10px;
-      font-size: clamp(28px, 4vw, 44px);
+      font-size: clamp(28px, 4vw, 46px);
       line-height:1.05;
     }
 
@@ -45,15 +45,16 @@
       margin: 10px 0 0;
       font-size: clamp(16px, 2.2vw, 18px);
       color:#f1f2ffcc;
+      max-width: 60ch;
     }
 
     .cta{
       margin-top: 24px;
       display:flex;
-      gap:12px;
+      gap:14px;
       align-items:center;
       position: relative;
-      min-height: 70px;
+      min-height: 78px;
     }
 
     button{
@@ -62,9 +63,14 @@
       user-select:none;
       padding: 14px 18px;
       border-radius: 14px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 16px;
       transition: transform .12s ease, filter .12s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      white-space: nowrap;
     }
 
     .yes{
@@ -83,12 +89,23 @@
       color: var(--txt);
       border:1px solid #ffffff2a;
       position: absolute;
-      left: 220px;
+      left: 260px;
       top: 0px;
       box-shadow: 0 12px 30px #00000022;
+      padding-left: 12px;
+      padding-right: 16px;
     }
 
     .no:hover{ filter: brightness(1.05); }
+
+    .no img{
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 1px solid #ffffff33;
+      box-shadow: 0 6px 16px #00000040;
+    }
 
     .final{
       display:none;
@@ -98,7 +115,7 @@
       border:1px solid #22c55e44;
       border-radius: 14px;
       color:#dcffe5;
-      font-weight: 600;
+      font-weight: 650;
     }
 
     .heart{
@@ -110,21 +127,35 @@
       transform: rotate(10deg);
     }
 
-    /* confetti */
-    .confetti{
+    /* Balloons */
+    .balloon{
       position: fixed;
-      top:-10px;
-      width:10px;
-      height:14px;
-      opacity:.9;
-      border-radius: 3px;
-      animation: fall linear forwards;
-      pointer-events:none;
+      bottom: -120px;
+      width: 54px;
+      height: 70px;
+      border-radius: 50% 50% 45% 45%;
+      opacity: .95;
+      pointer-events: none;
+      box-shadow: 0 18px 40px #00000035;
+      animation: floatUp linear forwards;
     }
 
-    @keyframes fall{
+    .balloon::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top: 64px;
+      width:2px;
+      height: 90px;
+      background:#ffffff55;
+      transform: translateX(-50%);
+      border-radius: 2px;
+      opacity:.65;
+    }
+
+    @keyframes floatUp{
       to{
-        transform: translateY(calc(100vh + 40px)) rotate(720deg);
+        transform: translateY(calc(-120vh)) translateX(var(--drift, 0px)) rotate(var(--spin, 0deg));
         opacity: 1;
       }
     }
@@ -134,19 +165,23 @@
 <body>
 
   <main class="card">
-    <h1>Queres ser a minha Valentim? 💘</h1>
+    <h1>Will you be my Valentine? 💘</h1>
     <p>
-      Prometo tratar-te como a minha pessoa favorita (porque és).
-      Topas fazer do dia 14 o nosso dia?
+      If love had a favorite person, it would look exactly like you.
+      So… will you make February 14th our day?
     </p>
 
     <div class="cta" id="cta">
-      <button class="yes" id="yesBtn">SIM, ACEITO! 😍</button>
-      <button class="no" id="noBtn">Não 😅</button>
+      <button class="yes" id="yesBtn">YES, I’D LOVE TO! 😍</button>
+
+      <button class="no" id="noBtn" aria-label="No">
+        <img src="angry.jpg" alt="angry face" />
+        No 🙃
+      </button>
     </div>
 
     <div class="final" id="finalBox">
-      🥰 YESSS! Então está combinado. Prepara-te: encontro, mimos e um plano que eu tratei.
+      🥰 It’s official. Dinner, kisses, and a plan I’m not telling you yet.
     </div>
 
     <div class="heart">💗</div>
@@ -155,30 +190,6 @@
   <script>
     const yesBtn = document.getElementById("yesBtn");
     const finalBox = document.getElementById("finalBox");
-
-    function launchConfetti(count = 140){
-      const colors = ["#ff4d6d", "#ff9f1c", "#7c3aed", "#22c55e", "#60a5fa", "#f472b6"];
-      for(let i=0;i<count;i++){
-        const c = document.createElement("div");
-        c.className = "confetti";
-        c.style.left = Math.random()*100 + "vw";
-        c.style.background = colors[Math.floor(Math.random()*colors.length)];
-        c.style.animationDuration = (2.2 + Math.random()*1.6) + "s";
-        c.style.width = (6 + Math.random()*10) + "px";
-        c.style.height = (8 + Math.random()*16) + "px";
-        document.body.appendChild(c);
-        c.addEventListener("animationend", ()=> c.remove());
-      }
-    }
-
-    yesBtn.addEventListener("click", () => {
-      yesBtn.disabled = true;
-      yesBtn.textContent = "Awwww 😭💘";
-      finalBox.style.display = "block";
-      launchConfetti();
-      if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
-    });
-
     const noBtn = document.getElementById("noBtn");
     const cta = document.getElementById("cta");
 
@@ -197,6 +208,7 @@
       noBtn.style.top = y + "px";
     }
 
+    // Runs away
     noBtn.addEventListener("mouseenter", moveNoButton);
     noBtn.addEventListener("mouseover", moveNoButton);
     noBtn.addEventListener("touchstart", (e) => {
@@ -205,6 +217,40 @@
     }, { passive: false });
 
     setTimeout(moveNoButton, 400);
+
+    function launchBalloons(count = 40){
+      const colors = ["#ff4d6d", "#ff9f1c", "#7c3aed", "#22c55e", "#60a5fa", "#f472b6", "#facc15"];
+      for(let i=0;i<count;i++){
+        const b = document.createElement("div");
+        b.className = "balloon";
+
+        const size = 42 + Math.random()*34;
+        b.style.width = size + "px";
+        b.style.height = (size * 1.25) + "px";
+
+        b.style.left = (Math.random()*100) + "vw";
+        b.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+        const drift = (Math.random()*240 - 120).toFixed(0) + "px";
+        const spin = (Math.random()*40 - 20).toFixed(0) + "deg";
+        b.style.setProperty("--drift", drift);
+        b.style.setProperty("--spin", spin);
+
+        b.style.animationDuration = (4.5 + Math.random()*3.5) + "s";
+        b.style.animationDelay = (Math.random()*0.6) + "s";
+
+        document.body.appendChild(b);
+        b.addEventListener("animationend", ()=> b.remove());
+      }
+    }
+
+    yesBtn.addEventListener("click", () => {
+      yesBtn.disabled = true;
+      yesBtn.textContent = "MY VALENTINE 💘";
+      finalBox.style.display = "block";
+      launchBalloons(55);
+      if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
+    });
   </script>
 
 </body>
