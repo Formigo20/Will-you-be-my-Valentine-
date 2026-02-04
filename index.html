@@ -13,7 +13,7 @@ body{
   min-height:100vh;
   display:grid;
   place-items:center;
-  font-family:Arial, sans-serif;
+  font-family: Arial, sans-serif;
   color:white;
   overflow:hidden;
 
@@ -38,11 +38,7 @@ body{
 
 /* TEXT */
 h1{font-size:42px;margin-bottom:12px;}
-.love-text{
-  line-height:1.6;
-  font-size:18px;
-  margin-top:10px;
-}
+.love-text{line-height:1.6;font-size:18px;margin-top:10px;}
 
 /* BUTTON AREA */
 .cta{
@@ -95,96 +91,4 @@ h1{font-size:42px;margin-bottom:12px;}
   right:-22px;
   width:60px;
   height:60px;
-  background:url("angry.jpg") center/cover no-repeat;
-  border-radius:12px;
-  pointer-events:none;
-}
-
-/* BALLOONS */
-.balloon{
-  position:absolute;
-  width:40px;
-  height:55px;
-  border-radius:50% 50% 45% 45%;
-  opacity:.95;
-  z-index:0;
-  animation:floatUp linear forwards;
-}
-
-@keyframes floatUp{
-  to{
-    transform:translateY(-120vh) translateX(var(--drift));
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="card">
-<h1>Will you be my Valentine? 💘</h1>
-
-<p class="love-text">
-I love your energy, the way you light up every room without even trying.<br>
-I love how your eyes sparkle when you talk about something that excites you, like the whole world pauses just to listen.<br>
-I love the way you allow yourself to be vulnerable with me, how you trust me enough to show your soft side.<br>
-Being with you feels warm, safe, and real, and I wouldn’t trade that feeling for anything.<br>
-So… will you make February 14th our day?
-</p>
-
-<div class="cta" id="cta">
-<button class="yes" id="yesBtn">YES 😍</button>
-<button class="no" id="noBtn">NO</button>
-</div>
-
-</div>
-
-<script>
-const yesBtn=document.getElementById("yesBtn");
-const noBtn=document.getElementById("noBtn");
-const cta=document.getElementById("cta");
-
-/* NO BUTTON RUNS */
-function moveNo(){
-const rect=cta.getBoundingClientRect();
-noBtn.style.left=Math.random()*(rect.width-120)+"px";
-noBtn.style.top=Math.random()*40+"px";
-}
-noBtn.addEventListener("mouseenter",moveNo);
-noBtn.addEventListener("touchstart",e=>{e.preventDefault();moveNo();});
-
-/* BALLOONS */
-function balloons(){
-const pinks=["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1"];
-const btnRect=yesBtn.getBoundingClientRect();
-
-for(let i=0;i<30;i++){
-let b=document.createElement("div");
-b.className="balloon";
-b.style.left=(btnRect.left+btnRect.width/2)+"px";
-b.style.top=(btnRect.top)+"px";
-b.style.background=pinks[Math.floor(Math.random()*pinks.length)];
-b.style.setProperty("--drift",(Math.random()*200-100)+"px");
-b.style.animationDuration=(4+Math.random()*2)+"s";
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),5000);
-}
-}
-
-/* YES CLICK */
-yesBtn.onclick=()=>{
-yesBtn.innerText="MY VALENTINE 💘";
-balloons();
-};
-</script>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
+  background:url("angry.jpg") center/cover no-repea
