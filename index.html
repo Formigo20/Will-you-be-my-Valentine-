@@ -6,9 +6,7 @@
   <title>My Valentine 💘</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -18,12 +16,12 @@
       font-family: Arial, sans-serif;
       color: white;
       overflow: hidden;
-      background: linear-gradient(#00000088, #00000088),
-                  url("photo.jpg") center/cover no-repeat fixed;
+      background:
+        linear-gradient(#00000088, #00000088),
+        url("photo.jpg") center/cover no-repeat fixed;
     }
 
     /* -------- PAGE 1 -------- */
-
     .card {
       width: min(760px, 92vw);
       padding: 28px;
@@ -31,8 +29,9 @@
       text-align: center;
       position: relative;
       box-shadow: 0 20px 60px #00000055;
-      background: linear-gradient(#000000aa, #000000aa),
-                  url("photo3.jpg") center/cover no-repeat;
+      background:
+        linear-gradient(#000000aa, #000000aa),
+        url("photo3.jpg") center/cover no-repeat;
       transition: opacity 0.8s ease-in-out;
     }
 
@@ -103,8 +102,7 @@
       pointer-events: none;
     }
 
-    /* -------- HEART TRANSITION -------- */
-
+    /* -------- HEART TRANSITION (BIG, CIRCLE FILL) -------- */
     .heartBig {
       position: fixed;
       width: 120px;
@@ -126,15 +124,8 @@
       border-radius: 50%;
     }
 
-    .heartBig::before {
-      top: -50%;
-      left: 0;
-    }
-
-    .heartBig::after {
-      left: 50%;
-      top: 0;
-    }
+    .heartBig::before { top: -50%; left: 0; }
+    .heartBig::after  { left: 50%; top: 0; }
 
     @keyframes fillHearts {
       0% {
@@ -142,21 +133,16 @@
         opacity: 1;
       }
       70% {
-        transform:
-          translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
-          rotate(-45deg) scale(1.55);
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
         opacity: 1;
       }
       100% {
-        transform:
-          translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
-          rotate(-45deg) scale(1.55);
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
         opacity: 0;
       }
     }
 
     /* -------- PAGE 2 -------- */
-
     #page2 {
       position: fixed;
       inset: 0;
@@ -228,16 +214,37 @@
       transform: translate(38px, 57px) rotate(-45deg);
       z-index: 1;
     }
+
+    #page2 .heartTop::before,
+    #page2 .heartTop::after,
+    #page2 .heartBR::before,
+    #page2 .heartBR::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ff0000;
+      border-radius: 50%;
+    }
+
+    #page2 .heartTop::before,
+    #page2 .heartBR::before { top: -50%; left: 0; }
+
+    #page2 .heartTop::after,
+    #page2 .heartBR::after { left: 50%; top: 0; }
   </style>
 </head>
 
 <body>
-
   <div class="card">
     <h1>Will you be my Valentine? 💘</h1>
 
     <p class="love-text">
-      I love your energy... So… will you make February 14th our day?
+      I love your energy, the way you light up every room without even trying.<br>
+      I love how your eyes sparkle when you talk about something that excites you, like the whole world pauses just to listen.<br>
+      I love the way you allow yourself to be vulnerable with me, how you trust me enough to show your soft side.<br>
+      Being with you feels warm, safe, and real, and I wouldn’t trade that feeling for anything.<br>
+      So… will you make February 14th our day?
     </p>
 
     <div class="cta" id="cta">
@@ -249,6 +256,8 @@
   <div id="page2">
     <div class="overlay"></div>
     <div class="big">
+      <div class="heartTop"></div>
+      <div class="heartBR"></div>
       <div class="my">MY</div>
       <div class="val">VALENTINE</div>
     </div>
@@ -264,28 +273,65 @@
       const rect = cta.getBoundingClientRect();
       const maxX = Math.max(0, rect.width - 120);
       const maxY = Math.max(0, rect.height - 56);
-
       noBtn.style.left = (Math.random() * maxX) + "px";
       noBtn.style.top = (Math.random() * maxY) + "px";
     }
 
     noBtn.addEventListener("mouseenter", moveNo);
     noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("touchstart", e => {
+      e.preventDefault();
+      moveNo();
+    }, { passive: false });
 
     function heartFill() {
+      const colors = ["#ff4d88", "#ff66a3", "#ff85b3", "#ff99c2", "#ffb3d1", "#ffc2dc"];
       const btn = yesBtn.getBoundingClientRect();
       const cx = btn.left + btn.width / 2;
       const cy = btn.top + btn.height / 2;
 
+      const w = window.innerWidth, h = window.innerHeight;
+      const area = w * h;
+
+      const baseSize = 120 * 120;
+      const count = Math.max(140, Math.min(320, Math.round(area / (baseSize * 0.6))));
+
       page2.style.display = "grid";
       requestAnimationFrame(() => page2.classList.add("show"));
 
-      return 1350;
+      const maxR = Math.hypot(w, h) * 0.92;
+      const dur = 1350;
+
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heartBig";
+
+        const s = 72 + Math.random() * 110;
+        heart.style.width = s + "px";
+        heart.style.height = s + "px";
+        heart.style.left = cx + "px";
+        heart.style.top = cy + "px";
+        heart.style.setProperty("--c", colors[Math.floor(Math.random() * colors.length)]);
+
+        const angle = (i / count) * Math.PI * 2 + (Math.random() * 0.18 - 0.09);
+        const dist = (0.55 + Math.random() * 0.55) * maxR;
+
+        heart.style.setProperty("--dx", (Math.cos(angle) * dist) + "px");
+        heart.style.setProperty("--dy", (Math.sin(angle) * dist) + "px");
+
+        heart.style.animation = `fillHearts ${dur}ms ease-out forwards`;
+
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), dur + 80);
+      }
+
+      return dur;
     }
 
     yesBtn.onclick = () => {
       yesBtn.disabled = true;
       yesBtn.innerText = "MY VALENTINE 💘";
+
       document.querySelector(".card").classList.add("fade-out");
 
       const dur = heartFill();
@@ -293,8 +339,9 @@
       setTimeout(() => {
         document.querySelector(".card").style.display = "none";
       }, dur);
+
+      if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
     };
   </script>
-
 </body>
 </html>
