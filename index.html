@@ -200,18 +200,30 @@ const noBtn = document.getElementById("noBtn");
 const page2 = document.getElementById("page2");
 
 function moveNo() {
-  const buttonWidth = noBtn.offsetWidth;
-  const buttonHeight = noBtn.offsetHeight;
+  const radiusPx = 188; // 5cm ≈ 188px
+  const initialTop = noBtn.offsetTop;
+  const initialLeft = noBtn.offsetLeft;
 
-  const maxX = window.innerWidth - buttonWidth;
-  const maxY = window.innerHeight - buttonHeight;
+  let angle = Math.random() * 2 * Math.PI;
+  let distance = Math.random() * radiusPx;
 
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
+  let offsetX = Math.cos(angle) * distance;
+  let offsetY = Math.sin(angle) * distance;
 
-  noBtn.style.left = `${randomX}px`;
-  noBtn.style.top = `${randomY}px`;
+  // Garante que o botão não sai da janela
+  let newLeft = Math.min(
+    Math.max(0, initialLeft + offsetX),
+    window.innerWidth - noBtn.offsetWidth
+  );
+  let newTop = Math.min(
+    Math.max(0, initialTop + offsetY),
+    window.innerHeight - noBtn.offsetHeight
+  );
+
+  noBtn.style.left = `${newLeft}px`;
+  noBtn.style.top = `${newTop}px`;
 }
+
 
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("mouseover", moveNo);
@@ -277,6 +289,7 @@ yesBtn.onclick = () => {
 
 </body>
 </html>
+
 
 
 
