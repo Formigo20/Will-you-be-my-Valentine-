@@ -30,7 +30,7 @@
       background:
         linear-gradient(#000000aa,#000000aa),
         url("photo3.jpg") center/cover no-repeat;
-      transition: opacity 3s ease-in-out;
+      transition: opacity 10s ease-in-out; /* 10 second fade */
     }
 
     .card.fade-out {
@@ -117,7 +117,7 @@
         transform: translate(-50%, -50%) rotate(-45deg) scale(0.3);
         opacity: 1;
       }
-      85% {
+      90% {
         transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.5);
         opacity: 1;
       }
@@ -258,11 +258,10 @@
     yesBtn.disabled = true;
     yesBtn.innerText = "MY VALENTINE 💘";
 
+    const dur = 10000; // 10 seconds
+
     document.querySelector(".card").classList.add("fade-out");
 
-    const dur = 3000;
-
-    // Show page 2 after the hearts finish
     setTimeout(() => {
       document.querySelector(".card").style.display = "none";
       page2.style.display = "grid";
@@ -283,7 +282,7 @@
     const w = window.innerWidth, h = window.innerHeight;
     const area = w * h;
     const baseSize = 120 * 120;
-    const count = Math.max(120, Math.min(300, Math.round(area / (baseSize * 0.6))));
+    const count = Math.max(150, Math.min(400, Math.round(area / (baseSize * 0.6))));
 
     const maxR = Math.hypot(w, h) * 0.92;
 
@@ -305,7 +304,7 @@
       heart.style.animation = `fillHearts ${duration}ms ease-out forwards`;
 
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), duration + 100);
+      setTimeout(() => heart.remove(), duration + 200);
     }
   }
 </script>
