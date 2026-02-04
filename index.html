@@ -202,29 +202,14 @@ const page2 = document.getElementById("page2");
 const card = document.getElementById("card");
 
 function moveNo() {
-    const card = document.querySelector('.card');
+  const card = document.querySelector('.card');
   const cardRect = card.getBoundingClientRect();
-  const buttonRect = noBtn.getBoundingClientRect();
 
-  const maxLeft = cardRect.width - noBtn.offsetWidth;
-  const maxTop = cardRect.height - noBtn.offsetHeight;
+  const maxLeft = card.clientWidth - noBtn.offsetWidth;
+  const maxTop = card.clientHeight - noBtn.offsetHeight;
 
-  const centerX = noBtn.offsetLeft + noBtn.offsetWidth / 2;
-  const centerY = noBtn.offsetTop + noBtn.offsetHeight / 2;
-
-  const maxRadius = 189; // 5cm ≈ 189px
-  const angle = Math.random() * 2 * Math.PI;
-  const distance = Math.random() * maxRadius;
-
-  const offsetX = Math.cos(angle) * distance;
-  const offsetY = Math.sin(angle) * distance;
-
-  let newLeft = centerX + offsetX - noBtn.offsetWidth / 2;
-  let newTop = centerY + offsetY - noBtn.offsetHeight / 2;
-
-  // limitar aos limites da .card
-  newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-  newTop = Math.max(0, Math.min(newTop, maxTop));
+  const newLeft = Math.random() * maxLeft;
+  const newTop = Math.random() * maxTop;
 
   noBtn.style.left = `${newLeft}px`;
   noBtn.style.top = `${newTop}px`;
@@ -290,5 +275,6 @@ yesBtn.onclick = () => {
 </script>
 </body>
 </html>
+
 
 
