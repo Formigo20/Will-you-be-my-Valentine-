@@ -1,193 +1,189 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>My Valentine 💘</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Valentine 💘</title>
+  <style>
+    *{box-sizing:border-box;}
 
-<style>
-*{box-sizing:border-box;}
+    body {
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: Arial, sans-serif;
+      color:white;
+      overflow:hidden;
+      background:
+        linear-gradient(#00000088,#00000088),
+        url("photo.jpg") center/cover no-repeat fixed;
+    }
 
-body{
-  margin:0;
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  font-family: Arial, sans-serif;
-  color:white;
-  overflow:hidden;
-  background:
-    linear-gradient(#00000088,#00000088),
-    url("photo.jpg") center/cover no-repeat fixed;
-}
+    .card {
+      width:min(760px,92vw);
+      padding:28px;
+      border-radius:24px;
+      text-align:center;
+      position:relative;
+      box-shadow:0 20px 60px #00000055;
+      background:
+        linear-gradient(#000000aa,#000000aa),
+        url("photo3.jpg") center/cover no-repeat;
+      transition: opacity 0.8s ease-in-out;
+    }
+    .card.fade-out {
+      opacity: 0;
+    }
 
-/* -------- PAGE 1 -------- */
-.card{
-  width:min(760px,92vw);
-  padding:28px;
-  border-radius:24px;
-  text-align:center;
-  position:relative;
-  box-shadow:0 20px 60px #00000055;
-  background:
-    linear-gradient(#000000aa,#000000aa),
-    url("photo3.jpg") center/cover no-repeat;
-  transition: opacity 0.8s ease-in-out;
-}
-.card.fade-out {
-  opacity: 0;
-}
+    h1{font-size:42px;margin-bottom:12px;}
+    .love-text{line-height:1.6;font-size:18px;margin-top:10px;}
 
-h1{font-size:42px;margin-bottom:12px;}
-.love-text{line-height:1.6;font-size:18px;margin-top:10px;}
+    .cta {
+      margin-top:24px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      position:relative;
+      min-height:200px;
+    }
 
-.cta{
-  margin-top:24px;
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  position:relative;
-  min-height:150px;
-}
+    .yes {
+      background:linear-gradient(135deg,#ff4d6d,#ff9f1c);
+      border:0;
+      padding:14px 20px;
+      border-radius:14px;
+      font-weight:bold;
+      cursor:pointer;
+      position:relative;
+      z-index:2;
+    }
 
-.yes{
-  background:linear-gradient(135deg,#ff4d6d,#ff9f1c);
-  border:0;
-  padding:14px 20px;
-  border-radius:14px;
-  font-weight:bold;
-  cursor:pointer;
-  position:relative;
-  z-index:2;
-}
+    .no {
+      position:absolute;
+      left:220px;
+      top:0;
+      width:120px;
+      height:56px;
+      border-radius:14px;
+      border:1px solid #ffffff55;
+      background:url("angry.jpg") center/cover no-repeat;
+      color:white;
+      font-weight:900;
+      font-size:18px;
+      text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+      box-shadow:0 12px 30px #00000055;
+      overflow:visible;
+    }
 
-.no{
-  position:absolute;
-  left:220px;
-  top:0;
-  width:120px;
-  height:56px;
-  border-radius:14px;
-  border:1px solid #ffffff55;
-  background: url("photo3.jpg") center/cover no-repeat;
-  color:white;
-  font-weight:900;
-  font-size:18px;
-  text-shadow:
-    -1px -1px 0 #000,
-     1px -1px 0 #000,
-    -1px  1px 0 #000,
-     1px  1px 0 #000;
-  box-shadow:0 12px 30px #00000055;
-  overflow:visible;
-}
+    .no::after {
+      content:"";
+      position:absolute;
+      top:-22px;
+      right:-22px;
+      width:60px;
+      height:60px;
+      background:url("angry.jpg") center/cover no-repeat;
+      border-radius:12px;
+      pointer-events:none;
+    }
 
-.no::after{
-  content:"";
-  position:absolute;
-  top:-22px;
-  right:-22px;
-  width:60px;
-  height:60px;
-  background:url("angry.jpg") center/cover no-repeat;
-  border-radius:12px;
-  pointer-events:none;
-}
+    .heartBig {
+      position:fixed;
+      width:120px;
+      height:120px;
+      transform: translate(-50%,-50%) rotate(-45deg);
+      background: var(--c,#ff4d88);
+      pointer-events:none;
+      z-index:9999;
+      opacity:1;
+    }
 
-/* -------- HEART TRANSITION -------- */
-.heartBig{
-  position:fixed;
-  width:120px;
-  height:120px;
-  transform: translate(-50%,-50%) rotate(-45deg);
-  background: var(--c,#ff4d88);
-  pointer-events:none;
-  z-index:9999;
-  opacity:1;
-}
-.heartBig::before,
-.heartBig::after{
-  content:"";
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:inherit;
-  border-radius:50%;
-}
-.heartBig::before{ top:-50%; left:0; }
-.heartBig::after{ left:50%; top:0; }
+    .heartBig::before,
+    .heartBig::after {
+      content:"";
+      position:absolute;
+      width:100%;
+      height:100%;
+      background:inherit;
+      border-radius:50%;
+    }
+    .heartBig::before{ top:-50%; left:0; }
+    .heartBig::after{ left:50%; top:0; }
 
-@keyframes fillHearts{
-  0%{
-    transform: translate(-50%,-50%) rotate(-45deg) scale(0.4);
-    opacity:1;
-  }
-  70%{
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
-    opacity:1;
-  }
-  100%{
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
-    opacity:0;
-  }
-}
+    @keyframes fillHearts {
+      0% {
+        transform: translate(-50%,-50%) rotate(-45deg) scale(0.4);
+        opacity:1;
+      }
+      70% {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
+        opacity:1;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
+        opacity:0;
+      }
+    }
 
-/* -------- PAGE 2 -------- */
-#page2{
-  position:fixed;
-  inset:0;
-  display:none;
-  place-items:center;
-  z-index:10000;
-  background:url("photo2.jpg") center/cover no-repeat;
-  opacity:0;
-  transition: opacity 220ms ease;
-}
-#page2.show{ opacity:1; }
+    #page2 {
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      z-index:10000;
+      background:url("photo2.jpg") center/cover no-repeat;
+      opacity:0;
+      transition: opacity 220ms ease;
+    }
 
-#page2 .overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(#00000055,#00000055);
-}
+    #page2.show { opacity:1; }
 
-#page2 .big{
-  position:relative;
-  text-align:center;
-  color:#ff0000;
-  font-family:"Times New Roman",serif;
-  font-weight:900;
-  letter-spacing:2px;
-  text-shadow:
-    -2px -2px 0 #000,
-     2px -2px 0 #000,
-    -2px  2px 0 #000,
-     2px  2px 0 #000;
-}
+    #page2 .overlay {
+      position:absolute;
+      inset:0;
+      background:linear-gradient(#00000055,#00000055);
+    }
 
-#page2 .my{
-  font-size:clamp(52px,7vw,92px);
-  line-height:1;
-}
+    #page2 .big {
+      position:relative;
+      text-align:center;
+      color:#ff0000;
+      font-family:"Times New Roman",serif;
+      font-weight:900;
+      letter-spacing:2px;
+      text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;
+    }
 
-#page2 .val{
-  font-size:clamp(72px,10vw,160px);
-  line-height:1;
-  position:relative;
-  z-index:2;
-}
-</style>
+    #page2 .my {
+      font-size:clamp(52px,7vw,92px);
+      line-height:1;
+    }
+
+    #page2 .val {
+      font-size:clamp(72px,10vw,160px);
+      line-height:1;
+      position:relative;
+      z-index:2;
+    }
+  </style>
 </head>
-
 <body>
 
 <div class="card">
   <h1>Will you be my Valentine? 💘</h1>
   <p class="love-text">
     I love your energy, the way you light up every room without even trying.<br>
-    I love how your eyes sparkle when you talk about something that excites you, like the whole world pauses just to listen.<br>
-    I love the way you allow yourself to be vulnerable with me, how you trust me enough to show your soft side.<br>
-    Being with you feels warm, safe, and real, and I wouldn’t trade that feeling for anything.<br>
+    I love how your eyes sparkle when you talk about something that excites you.<br>
+    I love the way you allow yourself to be vulnerable with me.<br>
     So… will you make February 14th our day?
   </p>
   <div class="cta" id="cta">
@@ -209,22 +205,15 @@ const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const page2 = document.getElementById("page2");
 
-// Store initial position for the NO button
-const initialLeft = 220;
+// Limit movement to max 10cm (≈377px) upward only
 const initialTop = 0;
-const maxDistance = 377; // 10cm ≈ 377px
+const initialLeft = 220;
+const maxY = 377;
 
-function moveNo(){
-  let dx, dy, distance;
-
-  do {
-    dx = Math.random() * 2 * maxDistance - maxDistance;
-    dy = Math.random() * 2 * maxDistance - maxDistance;
-    distance = Math.sqrt(dx * dx + dy * dy);
-  } while (distance > maxDistance);
-
-  noBtn.style.left = `${initialLeft + dx}px`;
-  noBtn.style.top = `${initialTop + dy}px`;
+function moveNo() {
+  const randomY = Math.random() * maxY;
+  noBtn.style.top = `${initialTop - randomY}px`;
+  noBtn.style.left = `${initialLeft}px`;
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
