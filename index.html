@@ -21,7 +21,6 @@ body{
     url("photo.jpg") center/cover no-repeat fixed;
 }
 
-/* -------- PAGE 1 -------- */
 .card{
   width:min(760px,92vw);
   padding:28px;
@@ -34,9 +33,7 @@ body{
     url("photo3.jpg") center/cover no-repeat;
   transition: opacity 0.8s ease-in-out;
 }
-.card.fade-out {
-  opacity: 0;
-}
+.card.fade-out { opacity: 0; }
 
 h1{font-size:42px;margin-bottom:12px;}
 .love-text{line-height:1.6;font-size:18px;margin-top:10px;}
@@ -93,7 +90,6 @@ h1{font-size:42px;margin-bottom:12px;}
   pointer-events:none;
 }
 
-/* -------- HEART TRANSITION (BIG, CIRCLE FILL) -------- */
 .heartBig{
   position:fixed;
   width:120px;
@@ -132,14 +128,15 @@ h1{font-size:42px;margin-bottom:12px;}
   }
 }
 
-/* -------- PAGE 2 -------- */
 #page2{
   position:fixed;
   inset:0;
   display:none;
   place-items:center;
   z-index:10000;
-  background:url("photo2.jpg") center/cover no-repeat;
+  background:
+    linear-gradient(#00000088,#00000088),
+    url("photo.jpg") center/cover no-repeat fixed;
   opacity:0;
   transition: opacity 220ms ease;
 }
@@ -213,6 +210,25 @@ h1{font-size:42px;margin-bottom:12px;}
 #page2 .heartBR::before{top:-50%;left:0;}
 #page2 .heartTop::after,
 #page2 .heartBR::after{left:50%;top:0;}
+
+/* GIFs */
+.gif-row {
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.gif-row img {
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  object-fit: cover;
+  opacity: 0.95;
+}
 </style>
 </head>
 
@@ -243,6 +259,14 @@ h1{font-size:42px;margin-bottom:12px;}
     <div class="my">MY</div>
     <div class="val">VALENTINE</div>
   </div>
+
+  <!-- GIFS -->
+  <div class="gif-row">
+    <img src="photo4.jpg" alt="GIF 1">
+    <img src="photo5.jpg" alt="GIF 2">
+    <img src="photo6.jpg" alt="GIF 3">
+    <img src="photo7.jpg" alt="GIF 4">
+  </div>
 </div>
 
 <script>
@@ -252,135 +276,23 @@ const cta = document.getElementById("cta");
 const page2 = document.getElementById("page2");
 
 function moveNo(){
-  const rect=cta.getBoundingClientRect();
-  const maxX=Math.max(0, rect.width-120);
-  const maxY=Math.max(0, rect.height-56);
-  noBtn.style.left=(Math.random()*maxX)+"px";
-  noBtn.style.top=(Math.random()*maxY)+"px";
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  const radius = 265; // 7 cm in pixels approx
+
+  const angle = Math.random() * 2 * Math.PI;
+  const r = Math.random() * radius;
+
+  const x = centerX + r * Math.cos(angle);
+  const y = centerY + r * Math.sin(angle);
+
+  noBtn.style.left = x - 60 + "px"; // 60 = half of button width
+  noBtn.style.top = y - 28 + "px";  // 28 = half of button height
 }
+
 noBtn.addEventListener("mouseenter",moveNo);
 noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("touchstart",e=>{e.preventDefault();moveNo();},{passive:false});
-
-function heartFill(){
-  const colors=["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1","#ffc2dc"];
-  const btn=yesBtn.getBoundingClientRect();
-  const cx=btn.left+btn.width/2;
-  const cy=btn.top+btn.height/2;
-
-  const w=window.innerWidth, h=window.innerHeight;
-  const area=w*h;
-
-  const baseSize=120*120;
-  const count=Math.max(140, Math.min(320, Math.round(area/(baseSize * 0.6))));
-
-  page2.style.display="grid";
-  requestAnimationFrame(()=> page2.classList.add("show"));
-
-  const maxR=Math.hypot(w, h)*0.92;
-  const dur=1350;
-
-  for(let i=0;i<count;i++){
-    const heart=document.createElement("div");
-    heart.className="heartBig";
-
-    const s=72 + Math.random()*110;
-    heart.style.width=s+"px";
-    heart.style.height=s+"px";
-
-    heart.style.left=cx+"px";
-    heart.style.top=cy+"px";
-    heart.style.setProperty("--c", colors[Math.floor(Math.random()*colors.length)]);
-
-    const angle = (i / count) * Math.PI * 2 + (Math.random()*0.18 - 0.09);
-    const dist  = (0.55 + Math.random()*0.55) * maxR;
-
-    heart.style.setProperty("--dx", (Math.cos(angle)*dist)+"px");
-    heart.style.setProperty("--dy", (Math.sin(angle)*dist)+"px");
-
-    heart.style.animation = fillHearts ${dur}ms ease-out forwards;
-
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(), dur+80);
-  }
-
-  return dur;
-}
-
-yesBtn.onclick = () => {
-  yesBtn.disabled = true;
-  yesBtn.innerText = "MY VALENTINE 💘";
-
-  document.querySelector(".card").classList.add("fade-out");
-
-  const dur = heartFill();
-
-  setTimeout(() => {
-    document.querySelector(".card").style.display = "none";
-  }, dur);
-
-  if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
-};
-</script>
-
-</body>
-</html> 
-
-considera apenas este codigo, quero que o botao "no" ande a um raio de 10 cm, continua com o fundo "angry.jpg"
-
-Claro, your king 👑 — mantendo o angry.jpg exatamente como está, aqui vai a alteração para o NO fugir apenas dentro de um raio ~10 cm (≈ 378px) a partir da posição inicial dele (e sempre dentro da área do cta).
-
-✅ Só precisas substituir o teu function moveNo() e adicionar estas variáveis por cima (no <script>), mantendo o resto igual.
-
-<script>
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const cta = document.getElementById("cta");
-const page2 = document.getElementById("page2");
-
-/* --- NEW: NO button flees within ~10cm radius --- */
-const CM_TO_PX = 37.7952755906;   // approx conversion (96dpi)
-const RADIUS_PX = 10 * CM_TO_PX;  // ~378px
-
-let noHome = null; // {x,y} relative to cta
-
-function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
-
-function ensureNoHome(){
-  if (noHome) return;
-  const left = parseFloat(getComputedStyle(noBtn).left) || 0;
-  const top  = parseFloat(getComputedStyle(noBtn).top)  || 0;
-  noHome = { x:left, y:top };
-}
-
-function moveNo(){
-  ensureNoHome();
-
-  const rect = cta.getBoundingClientRect();
-  const btnW = noBtn.offsetWidth || 120;
-  const btnH = noBtn.offsetHeight || 56;
-
-  const maxX = Math.max(0, rect.width - btnW);
-  const maxY = Math.max(0, rect.height - btnH);
-
-  // random point inside a circle (uniform distribution)
-  const a = Math.random() * Math.PI * 2;
-  const r = Math.sqrt(Math.random()) * RADIUS_PX;
-
-  let x = noHome.x + Math.cos(a) * r;
-  let y = noHome.y + Math.sin(a) * r;
-
-  // keep inside the CTA box
-  x = clamp(x, 0, maxX);
-  y = clamp(y, 0, maxY);
-
-  noBtn.style.left = x + "px";
-  noBtn.style.top  = y + "px";
-}
-
-noBtn.addEventListener("mouseenter", moveNo);
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); }, { passive:false });
 
 function heartFill(){
   const colors=["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1","#ffc2dc"];
@@ -419,336 +331,6 @@ function heartFill(){
     heart.style.setProperty("--dy", (Math.sin(angle)*dist)+"px");
 
     heart.style.animation = `fillHearts ${dur}ms ease-out forwards`;
-
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(), dur+80);
-  }
-
-  return dur;
-}
-
-yesBtn.onclick = () => {
-  yesBtn.disabled = true;
-  yesBtn.innerText = "MY VALENTINE 💘";
-
-  document.querySelector(".card").classList.add("fade-out");
-
-  const dur = heartFill();
-
-  setTimeout(() => {
-    document.querySelector(".card").style.display = "none";
-  }, dur);
-
-  if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
-};
-</script>
-
-
-Se quiseres que seja 10 cm “reais” (dependente do ecrã) em vez de aproximado em pixels, também dá — mas já assim fica perfeito na prática para telemóvel/PC.
-
-
-Dito por si:
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>My Valentine 💘</title>
-
-<style>
-*{box-sizing:border-box;}
-
-body{
-  margin:0;
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  font-family: Arial, sans-serif;
-  color:white;
-  overflow:hidden;
-  background:
-    linear-gradient(#00000088,#00000088),
-    url("photo.jpg") center/cover no-repeat fixed;
-}
-
-/* -------- PAGE 1 -------- */
-.card{
-  width:min(760px,92vw);
-  padding:28px;
-  border-radius:24px;
-  text-align:center;
-  position:relative;
-  box-shadow:0 20px 60px #00000055;
-  background:
-    linear-gradient(#000000aa,#000000aa),
-    url("photo3.jpg") center/cover no-repeat;
-  transition: opacity 0.8s ease-in-out;
-}
-.card.fade-out {
-  opacity: 0;
-}
-
-h1{font-size:42px;margin-bottom:12px;}
-.love-text{line-height:1.6;font-size:18px;margin-top:10px;}
-
-.cta{
-  margin-top:24px;
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  position:relative;
-  min-height:70px;
-}
-
-.yes{
-  background:linear-gradient(135deg,#ff4d6d,#ff9f1c);
-  border:0;
-  padding:14px 20px;
-  border-radius:14px;
-  font-weight:bold;
-  cursor:pointer;
-  position:relative;
-  z-index:2;
-}
-
-.no{
-  position:absolute;
-  left:220px;
-  width:120px;
-  height:56px;
-  border-radius:14px;
-  border:1px solid #ffffff55;
-  background:#1e293b;
-  color:white;
-  font-weight:900;
-  font-size:18px;
-  text-shadow:
-    -1px -1px 0 #000,
-     1px -1px 0 #000,
-    -1px  1px 0 #000,
-     1px  1px 0 #000;
-  box-shadow:0 12px 30px #00000055;
-  overflow:visible;
-}
-
-.no::after{
-  content:"";
-  position:absolute;
-  top:-22px;
-  right:-22px;
-  width:60px;
-  height:60px;
-  background:url("angry.jpg") center/cover no-repeat;
-  border-radius:12px;
-  pointer-events:none;
-}
-
-/* -------- HEART TRANSITION (BIG, CIRCLE FILL) -------- */
-.heartBig{
-  position:fixed;
-  width:120px;
-  height:120px;
-  transform: translate(-50%,-50%) rotate(-45deg);
-  background: var(--c,#ff4d88);
-  pointer-events:none;
-  z-index:9999;
-  opacity:1;
-}
-
-.heartBig::before,
-.heartBig::after{
-  content:"";
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:inherit;
-  border-radius:50%;
-}
-.heartBig::before{ top:-50%; left:0; }
-.heartBig::after{ left:50%; top:0; }
-
-@keyframes fillHearts{
-  0%{
-    transform: translate(-50%,-50%) rotate(-45deg) scale(0.4);
-    opacity:1;
-  }
-  70%{
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
-    opacity:1;
-  }
-  100%{
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
-    opacity:0;
-  }
-}
-
-/* -------- PAGE 2 -------- */
-#page2{
-  position:fixed;
-  inset:0;
-  display:none;
-  place-items:center;
-  z-index:10000;
-  background:url("photo2.jpg") center/cover no-repeat;
-  opacity:0;
-  transition: opacity 220ms ease;
-}
-#page2.show{ opacity:1; }
-
-#page2 .overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(#00000055,#00000055);
-}
-
-#page2 .big{
-  position:relative;
-  text-align:center;
-  color:#ff0000;
-  font-family:"Times New Roman",serif;
-  font-weight:900;
-  letter-spacing:2px;
-  text-shadow:
-    -2px -2px 0 #000,
-     2px -2px 0 #000,
-    -2px  2px 0 #000,
-     2px  2px 0 #000;
-}
-
-#page2 .my{
-  font-size:clamp(52px,7vw,92px);
-  line-height:1;
-}
-
-#page2 .val{
-  font-size:clamp(72px,10vw,160px);
-  line-height:1;
-  position:relative;
-  z-index:2;
-}
-
-#page2 .heartTop,
-#page2 .heartBR{
-  position:absolute;
-  background:#ff0000;
-  transform:rotate(-45deg);
-  border-radius:10px;
-}
-
-#page2 .heartTop{
-  width:80px;height:80px;
-  top:-20px;left:20%;
-  z-index:3;
-}
-
-#page2 .heartBR{
-  width:120px;height:120px;
-  bottom:-20px;
-  right:8%;
-  transform: translate(38px, 57px) rotate(-45deg);
-  z-index:1;
-}
-
-#page2 .heartTop::before,
-#page2 .heartTop::after,
-#page2 .heartBR::before,
-#page2 .heartBR::after{
-  content:"";
-  position:absolute;
-  width:100%;height:100%;
-  background:#ff0000;
-  border-radius:50%;
-}
-#page2 .heartTop::before,
-#page2 .heartBR::before{top:-50%;left:0;}
-#page2 .heartTop::after,
-#page2 .heartBR::after{left:50%;top:0;}
-</style>
-</head>
-
-<body>
-
-<div class="card">
-  <h1>Will you be my Valentine? 💘</h1>
-
-  <p class="love-text">
-    I love your energy, the way you light up every room without even trying.<br>
-    I love how your eyes sparkle when you talk about something that excites you, like the whole world pauses just to listen.<br>
-    I love the way you allow yourself to be vulnerable with me, how you trust me enough to show your soft side.<br>
-    Being with you feels warm, safe, and real, and I wouldn’t trade that feeling for anything.<br>
-    So… will you make February 14th our day?
-  </p>
-
-  <div class="cta" id="cta">
-    <button class="yes" id="yesBtn">YES 😍</button>
-    <button class="no" id="noBtn">NO</button>
-  </div>
-</div>
-
-<div id="page2">
-  <div class="overlay"></div>
-  <div class="big">
-    <div class="heartTop"></div>
-    <div class="heartBR"></div>
-    <div class="my">MY</div>
-    <div class="val">VALENTINE</div>
-  </div>
-</div>
-
-<script>
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const cta = document.getElementById("cta");
-const page2 = document.getElementById("page2");
-
-function moveNo(){
-  const rect=cta.getBoundingClientRect();
-  const maxX=Math.max(0, rect.width-120);
-  const maxY=Math.max(0, rect.height-56);
-  noBtn.style.left=(Math.random()*maxX)+"px";
-  noBtn.style.top=(Math.random()*maxY)+"px";
-}
-noBtn.addEventListener("mouseenter",moveNo);
-noBtn.addEventListener("mouseover",moveNo);
-noBtn.addEventListener("touchstart",e=>{e.preventDefault();moveNo();},{passive:false});
-
-function heartFill(){
-  const colors=["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1","#ffc2dc"];
-  const btn=yesBtn.getBoundingClientRect();
-  const cx=btn.left+btn.width/2;
-  const cy=btn.top+btn.height/2;
-
-  const w=window.innerWidth, h=window.innerHeight;
-  const area=w*h;
-
-  const baseSize=120*120;
-  const count=Math.max(140, Math.min(320, Math.round(area/(baseSize * 0.6))));
-
-  page2.style.display="grid";
-  requestAnimationFrame(()=> page2.classList.add("show"));
-
-  const maxR=Math.hypot(w, h)*0.92;
-  const dur=1350;
-
-  for(let i=0;i<count;i++){
-    const heart=document.createElement("div");
-    heart.className="heartBig";
-
-    const s=72 + Math.random()*110;
-    heart.style.width=s+"px";
-    heart.style.height=s+"px";
-
-    heart.style.left=cx+"px";
-    heart.style.top=cy+"px";
-    heart.style.setProperty("--c", colors[Math.floor(Math.random()*colors.length)]);
-
-    const angle = (i / count) * Math.PI * 2 + (Math.random()*0.18 - 0.09);
-    const dist  = (0.55 + Math.random()*0.55) * maxR;
-
-    heart.style.setProperty("--dx", (Math.cos(angle)*dist)+"px");
-    heart.style.setProperty("--dy", (Math.sin(angle)*dist)+"px");
-
-    heart.style.animation = fillHearts ${dur}ms ease-out forwards;
 
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(), dur+80);
