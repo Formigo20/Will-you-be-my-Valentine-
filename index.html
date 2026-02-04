@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,7 +7,6 @@
   <title>My Valentine 💘</title>
   <style>
     *{box-sizing:border-box;}
-
     body {
       margin:0;
       min-height:100vh;
@@ -49,28 +49,29 @@
     }
 
     .yes {
-      background:#005875;
-      color:white;
-      border:2px solid #003f4f;
-      font-size:20px;
-      padding:12px 24px;
-      border-radius:6px;
+      background:linear-gradient(135deg,#ff4d6d,#ff9f1c);
+      border:0;
+      padding: 6px 10px;
+      font-size: 14px;
+      border-radius:14px;
+      font-weight:bold;
       cursor:pointer;
-      font-weight:600;
+      position:relative;
+      z-index:2;
     }
 
     .no {
       position:absolute;
       left:220px;
       top:0;
-      width:80px;
-      height:40px;
+      width:120px;
+      height:56px;
       border-radius:14px;
       border:1px solid #ffffff55;
       background:url("angry.jpg") center/cover no-repeat;
       color:white;
       font-weight:900;
-      font-size:16px;
+      font-size:18px;
       text-shadow:
         -1px -1px 0 #000,
          1px -1px 0 #000,
@@ -124,17 +125,17 @@
       display:none;
       place-items:center;
       z-index:10000;
-      background:
-        linear-gradient(#00000088,#00000088),
-        url("photo.jpg") center/cover no-repeat fixed;
+      background:url("photo.jpg") center/cover no-repeat;
       opacity:0;
       transition: opacity 8s ease;
     }
+
     #page2.show { opacity:1; }
 
     #page2 .overlay {
       position:absolute;
       inset:0;
+      background:linear-gradient(#00000055,#00000055);
     }
 
     #page2 .big {
@@ -197,23 +198,23 @@ function moveNo() {
   const buttonRect = noBtn.getBoundingClientRect();
   const centerX = buttonRect.left + buttonRect.width / 2;
   const centerY = buttonRect.top + buttonRect.height / 2;
-  const maxRadius = 189; // 5cm in px
+  const maxRadius = 189;
 
-  const angle = Math.random() * 2 * Math.PI;
-  const distance = Math.random() * maxRadius;
+  let offsetX, offsetY, newLeft, newTop;
+  let attempts = 0;
+  const maxAttempts = 30;
 
-  const offsetX = Math.cos(angle) * distance;
-  const offsetY = Math.sin(angle) * distance;
+  do {
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = Math.random() * maxRadius;
 
-  const newLeft = Math.min(
-    Math.max(0, centerX + offsetX - buttonRect.width / 2),
-    window.innerWidth - buttonRect.width
-  );
+    offsetX = Math.cos(angle) * distance;
+    offsetY = Math.sin(angle) * distance;
 
-  const newTop = Math.min(
-    Math.max(0, centerY + offsetY - buttonRect.height / 2),
-    window.innerHeight - buttonRect.height
-  );
+    newLeft = Math.min(Math.max(0, centerX + offsetX - buttonRect.width / 2), window.innerWidth - buttonRect.width);
+    newTop = Math.min(Math.max(0, centerY + offsetY - buttonRect.height / 2), window.innerHeight - buttonRect.height);
+    attempts++;
+  } while ((newLeft < 0 || newTop < 0 || newLeft + buttonRect.width > window.innerWidth || newTop + buttonRect.height > window.innerHeight) && attempts < maxAttempts);
 
   noBtn.style.left = `${newLeft}px`;
   noBtn.style.top = `${newTop}px`;
@@ -228,15 +229,12 @@ function heartFill(){
   const btn=yesBtn.getBoundingClientRect();
   const cx=btn.left+btn.width/2;
   const cy=btn.top+btn.height/2;
-
   const w=window.innerWidth, h=window.innerHeight;
   const area=w*h;
   const baseSize=120*120;
   const count=Math.max(140, Math.min(320, Math.round(area/(baseSize * 0.6))));
-
   page2.style.display="grid";
   requestAnimationFrame(()=> page2.classList.add("show"));
-
   const maxR=Math.hypot(w, h)*0.92;
   const dur=1350;
 
@@ -268,18 +266,13 @@ function heartFill(){
 yesBtn.onclick = () => {
   yesBtn.disabled = true;
   yesBtn.innerText = "MY VALENTINE 💘";
-
   document.querySelector(".card").classList.add("fade-out");
-
   const dur = heartFill();
-
   setTimeout(() => {
     document.querySelector(".card").style.display = "none";
   }, dur);
-
   if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
 };
 </script>
-
 </body>
 </html>
