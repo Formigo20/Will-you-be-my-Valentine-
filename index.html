@@ -21,6 +21,7 @@ body{
     url("photo.jpg") center/cover no-repeat fixed;
 }
 
+/* -------- PAGE 1 -------- */
 .card{
   width:min(760px,92vw);
   padding:28px;
@@ -63,7 +64,6 @@ h1{font-size:42px;margin-bottom:12px;}
 .no{
   position:absolute;
   left:220px;
-  top:0px;
   width:120px;
   height:56px;
   border-radius:14px;
@@ -93,6 +93,7 @@ h1{font-size:42px;margin-bottom:12px;}
   pointer-events:none;
 }
 
+/* -------- HEART TRANSITION (BIG, CIRCLE FILL) -------- */
 .heartBig{
   position:fixed;
   width:120px;
@@ -100,7 +101,7 @@ h1{font-size:42px;margin-bottom:12px;}
   transform: translate(-50%,-50%) rotate(-45deg);
   background: var(--c,#ff4d88);
   pointer-events:none;
-  z-index:1;
+  z-index:9999;
   opacity:1;
 }
 
@@ -131,13 +132,14 @@ h1{font-size:42px;margin-bottom:12px;}
   }
 }
 
+/* -------- PAGE 2 -------- */
 #page2{
   position:fixed;
   inset:0;
   display:none;
   place-items:center;
   z-index:10000;
-  background:url("photo2.jpg") center/cover no-repeat;
+  background:url("photo.jpg") center/cover no-repeat;
   opacity:0;
   transition: opacity 220ms ease;
 }
@@ -147,6 +149,23 @@ h1{font-size:42px;margin-bottom:12px;}
   position:absolute;
   inset:0;
   background:linear-gradient(#00000055,#00000055);
+  z-index:1;
+}
+
+#page2 .gif-container{
+  position:absolute;
+  bottom:40px;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  z-index:2;
+}
+
+#page2 .gif-container img{
+  width:150px;
+  height:auto;
+  mix-blend-mode:normal;
+  filter: drop-shadow(0 0 8px black);
 }
 
 #page2 .big{
@@ -156,12 +175,12 @@ h1{font-size:42px;margin-bottom:12px;}
   font-family:"Times New Roman",serif;
   font-weight:900;
   letter-spacing:2px;
+  z-index:3;
   text-shadow:
     -2px -2px 0 #000,
      2px -2px 0 #000,
     -2px  2px 0 #000,
      2px  2px 0 #000;
-  z-index:2;
 }
 
 #page2 .my{
@@ -182,12 +201,12 @@ h1{font-size:42px;margin-bottom:12px;}
   background:#ff0000;
   transform:rotate(-45deg);
   border-radius:10px;
-  z-index:1;
 }
 
 #page2 .heartTop{
   width:80px;height:80px;
   top:-20px;left:20%;
+  z-index:3;
 }
 
 #page2 .heartBR{
@@ -195,6 +214,7 @@ h1{font-size:42px;margin-bottom:12px;}
   bottom:-20px;
   right:8%;
   transform: translate(38px, 57px) rotate(-45deg);
+  z-index:1;
 }
 
 #page2 .heartTop::before,
@@ -211,27 +231,14 @@ h1{font-size:42px;margin-bottom:12px;}
 #page2 .heartBR::before{top:-50%;left:0;}
 #page2 .heartTop::after,
 #page2 .heartBR::after{left:50%;top:0;}
-
-#page2 .gifs {
-  position: absolute;
-  bottom: 2%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 40px;
-  z-index:3;
-}
-
-#page2 .gifs img {
-  height: 120px;
-  object-fit: contain;
-}
 </style>
 </head>
 
 <body>
+
 <div class="card">
   <h1>Will you be my Valentine? 💘</h1>
+
   <p class="love-text">
     I love your energy, the way you light up every room without even trying.<br>
     I love how your eyes sparkle when you talk about something that excites you, like the whole world pauses just to listen.<br>
@@ -239,6 +246,7 @@ h1{font-size:42px;margin-bottom:12px;}
     Being with you feels warm, safe, and real, and I wouldn’t trade that feeling for anything.<br>
     So… will you make February 14th our day?
   </p>
+
   <div class="cta" id="cta">
     <button class="yes" id="yesBtn">YES 😍</button>
     <button class="no" id="noBtn">NO</button>
@@ -247,17 +255,20 @@ h1{font-size:42px;margin-bottom:12px;}
 
 <div id="page2">
   <div class="overlay"></div>
+
+  <!-- GIFs container -->
+  <div class="gif-container">
+    <img src="photo4.jpg" alt="gif1">
+    <img src="photo5.jpg" alt="gif2">
+    <img src="photo6.jpg" alt="gif3">
+    <img src="photo7.jpg" alt="gif4">
+  </div>
+
   <div class="big">
     <div class="heartTop"></div>
     <div class="heartBR"></div>
     <div class="my">MY</div>
     <div class="val">VALENTINE</div>
-  </div>
-  <div class="gifs">
-    <img src="photo4.jpg" alt="gif1" />
-    <img src="photo5.jpg" alt="gif2" />
-    <img src="photo6.jpg" alt="gif3" />
-    <img src="photo7.jpg" alt="gif4" />
   </div>
 </div>
 
@@ -268,44 +279,44 @@ const cta = document.getElementById("cta");
 const page2 = document.getElementById("page2");
 
 function moveNo(){
-  const rect = document.body.getBoundingClientRect();
-  const maxX = Math.max(0, rect.width - 140);
-  const maxY = Math.max(0, rect.height - 80);
-  noBtn.style.left = Math.random() * maxX + "px";
-  noBtn.style.top = Math.random() * maxY + "px";
+  const rect=cta.getBoundingClientRect();
+  const maxX=Math.max(0, rect.width-120);
+  const maxY=Math.max(0, rect.height-56);
+  noBtn.style.left=(Math.random()*maxX)+"px";
+  noBtn.style.top=(Math.random()*maxY)+"px";
 }
-
-noBtn.addEventListener("mouseenter", moveNo);
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("touchstart", e => {e.preventDefault(); moveNo(); }, {passive:false});
+noBtn.addEventListener("mouseenter",moveNo);
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("touchstart",e=>{e.preventDefault();moveNo();},{passive:false});
 
 function heartFill(){
-  const colors = ["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1","#ffc2dc"];
-  const btn = yesBtn.getBoundingClientRect();
-  const cx = btn.left + btn.width / 2;
-  const cy = btn.top + btn.height / 2;
+  const colors=["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1","#ffc2dc"];
+  const btn=yesBtn.getBoundingClientRect();
+  const cx=btn.left+btn.width/2;
+  const cy=btn.top+btn.height/2;
 
-  const w = window.innerWidth, h = window.innerHeight;
-  const area = w * h;
-  const baseSize = 120 * 120;
-  const count = Math.max(140, Math.min(320, Math.round(area / (baseSize * 0.6))));
+  const w=window.innerWidth, h=window.innerHeight;
+  const area=w*h;
 
-  page2.style.display = "grid";
-  requestAnimationFrame(() => page2.classList.add("show"));
+  const baseSize=120*120;
+  const count=Math.max(140, Math.min(320, Math.round(area/(baseSize * 0.6))));
 
-  const maxR = Math.hypot(w, h) * 0.92;
-  const dur = 1350;
+  page2.style.display="grid";
+  requestAnimationFrame(()=> page2.classList.add("show"));
 
-  for(let i = 0; i < count; i++){
-    const heart = document.createElement("div");
-    heart.className = "heartBig";
+  const maxR=Math.hypot(w, h)*0.92;
+  const dur=1350;
 
-    const s = 72 + Math.random()*110;
-    heart.style.width = s + "px";
-    heart.style.height = s + "px";
+  for(let i=0;i<count;i++){
+    const heart=document.createElement("div");
+    heart.className="heartBig";
 
-    heart.style.left = cx + "px";
-    heart.style.top = cy + "px";
+    const s=72 + Math.random()*110;
+    heart.style.width=s+"px";
+    heart.style.height=s+"px";
+
+    heart.style.left=cx+"px";
+    heart.style.top=cy+"px";
     heart.style.setProperty("--c", colors[Math.floor(Math.random()*colors.length)]);
 
     const angle = (i / count) * Math.PI * 2 + (Math.random()*0.18 - 0.09);
@@ -317,21 +328,27 @@ function heartFill(){
     heart.style.animation = `fillHearts ${dur}ms ease-out forwards`;
 
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), dur + 80);
+    setTimeout(()=>heart.remove(), dur+80);
   }
+
   return dur;
 }
 
 yesBtn.onclick = () => {
   yesBtn.disabled = true;
   yesBtn.innerText = "MY VALENTINE 💘";
+
   document.querySelector(".card").classList.add("fade-out");
+
   const dur = heartFill();
+
   setTimeout(() => {
     document.querySelector(".card").style.display = "none";
   }, dur);
+
   if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
 };
 </script>
+
 </body>
 </html>
