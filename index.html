@@ -21,6 +21,7 @@ body{
     url("photo.jpg") center/cover no-repeat fixed;
 }
 
+/* -------- PAGE 1 -------- */
 .card{
   width:min(760px,92vw);
   padding:28px;
@@ -33,7 +34,9 @@ body{
     url("photo3.jpg") center/cover no-repeat;
   transition: opacity 0.8s ease-in-out;
 }
-.card.fade-out { opacity: 0; }
+.card.fade-out {
+  opacity: 0;
+}
 
 h1{font-size:42px;margin-bottom:12px;}
 .love-text{line-height:1.6;font-size:18px;margin-top:10px;}
@@ -90,6 +93,7 @@ h1{font-size:42px;margin-bottom:12px;}
   pointer-events:none;
 }
 
+/* -------- HEART TRANSITION (BIG, CIRCLE FILL) -------- */
 .heartBig{
   position:fixed;
   width:120px;
@@ -128,17 +132,17 @@ h1{font-size:42px;margin-bottom:12px;}
   }
 }
 
+/* -------- PAGE 2 -------- */
 #page2{
   position:fixed;
   inset:0;
   display:none;
   place-items:center;
   z-index:10000;
-  background:
-    linear-gradient(#00000088,#00000088),
-    url("photo.jpg") center/cover no-repeat fixed;
+  background:url("photo2.jpg") center/cover no-repeat;
   opacity:0;
   transition: opacity 220ms ease;
+  overflow:hidden;
 }
 #page2.show{ opacity:1; }
 
@@ -148,6 +152,60 @@ h1{font-size:42px;margin-bottom:12px;}
   background:linear-gradient(#00000055,#00000055);
 }
 
+/* --- NEW: page2 images --- */
+#page2 .p2-img{
+  position:absolute;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  border-radius:22px;
+  box-shadow:0 18px 45px #00000066;
+  border:1px solid #ffffff33;
+  z-index:2;
+  pointer-events:none;
+}
+
+/* grandes (um pouco maior que as letras) */
+#page2 .p2-left{
+  left:4.5vw;
+  top:50%;
+  transform:translateY(-50%);
+  width:min(36vw, 520px);
+  height:min(52vh, 520px);
+  background-image:url("photo5.jpg");
+}
+
+#page2 .p2-right{
+  right:4.5vw;
+  top:50%;
+  transform:translateY(-50%);
+  width:min(36vw, 520px);
+  height:min(52vh, 520px);
+  background-image:url("photo6.jpg");
+}
+
+/* extras (cantos) */
+#page2 .p2-top-left{
+  left:18px;
+  top:18px;
+  width:min(14vw, 180px);
+  height:min(14vw, 180px);
+  background-image:url("photo4.jpg");
+  z-index:1;
+  opacity:0.95;
+}
+
+#page2 .p2-bottom-right{
+  right:18px;
+  bottom:18px;
+  width:min(14vw, 180px);
+  height:min(14vw, 180px);
+  background-image:url("photo7.jpg");
+  z-index:1;
+  opacity:0.95;
+}
+
+/* mantém as letras em cima das imagens grandes */
 #page2 .big{
   position:relative;
   text-align:center;
@@ -160,6 +218,7 @@ h1{font-size:42px;margin-bottom:12px;}
      2px -2px 0 #000,
     -2px  2px 0 #000,
      2px  2px 0 #000;
+  z-index:3;
 }
 
 #page2 .my{
@@ -210,25 +269,6 @@ h1{font-size:42px;margin-bottom:12px;}
 #page2 .heartBR::before{top:-50%;left:0;}
 #page2 .heartTop::after,
 #page2 .heartBR::after{left:50%;top:0;}
-
-/* GIFs */
-.gif-row {
-  position: absolute;
-  bottom: 80px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  z-index: 10;
-}
-
-.gif-row img {
-  width: 140px;
-  height: 140px;
-  border-radius: 12px;
-  object-fit: cover;
-  opacity: 0.95;
-}
 </style>
 </head>
 
@@ -253,19 +293,18 @@ h1{font-size:42px;margin-bottom:12px;}
 
 <div id="page2">
   <div class="overlay"></div>
+
+  <!-- NEW images -->
+  <div class="p2-img p2-top-left"></div>
+  <div class="p2-img p2-bottom-right"></div>
+  <div class="p2-img p2-left"></div>
+  <div class="p2-img p2-right"></div>
+
   <div class="big">
     <div class="heartTop"></div>
     <div class="heartBR"></div>
     <div class="my">MY</div>
     <div class="val">VALENTINE</div>
-  </div>
-
-  <!-- GIFS -->
-  <div class="gif-row">
-    <img src="photo4.jpg" alt="GIF 1">
-    <img src="photo5.jpg" alt="GIF 2">
-    <img src="photo6.jpg" alt="GIF 3">
-    <img src="photo7.jpg" alt="GIF 4">
   </div>
 </div>
 
@@ -275,24 +314,50 @@ const noBtn = document.getElementById("noBtn");
 const cta = document.getElementById("cta");
 const page2 = document.getElementById("page2");
 
-function moveNo(){
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
-  const radius = 265; // 7 cm in pixels approx
+/* --- NEW: NO button flee within ~10cm radius --- */
+const CM_TO_PX = 37.7952755906;  // ~96dpi assumption
+const FLEE_RADIUS_PX = 10 * CM_TO_PX; // ~378px
 
-  const angle = Math.random() * 2 * Math.PI;
-  const r = Math.random() * radius;
+let noHome = null; // {x,y} in px relative to cta
 
-  const x = centerX + r * Math.cos(angle);
-  const y = centerY + r * Math.sin(angle);
+function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
 
-  noBtn.style.left = x - 60 + "px"; // 60 = half of button width
-  noBtn.style.top = y - 28 + "px";  // 28 = half of button height
+function ensureNoHome(){
+  if(noHome) return;
+  // get current computed position relative to cta
+  const left = parseFloat(getComputedStyle(noBtn).left) || 0;
+  const top  = parseFloat(getComputedStyle(noBtn).top)  || 0;
+  noHome = { x:left, y:top };
 }
 
-noBtn.addEventListener("mouseenter",moveNo);
-noBtn.addEventListener("mouseover",moveNo);
-noBtn.addEventListener("touchstart",e=>{e.preventDefault();moveNo();},{passive:false});
+function moveNo(){
+  ensureNoHome();
+
+  const rect = cta.getBoundingClientRect();
+  const btnW = noBtn.offsetWidth || 120;
+  const btnH = noBtn.offsetHeight || 56;
+
+  const maxX = Math.max(0, rect.width - btnW);
+  const maxY = Math.max(0, rect.height - btnH);
+
+  // random point inside a circle of radius FLEE_RADIUS_PX
+  const a = Math.random() * Math.PI * 2;
+  const r = Math.sqrt(Math.random()) * FLEE_RADIUS_PX;
+
+  let x = noHome.x + Math.cos(a) * r;
+  let y = noHome.y + Math.sin(a) * r;
+
+  // keep inside the cta area
+  x = clamp(x, 0, maxX);
+  y = clamp(y, 0, maxY);
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top  = y + "px";
+}
+
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); }, { passive:false });
 
 function heartFill(){
   const colors=["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1","#ffc2dc"];
