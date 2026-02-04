@@ -80,17 +80,11 @@
       overflow:visible;
     }
 
-    .no::after {
-      content:"";
-      position:absolute;
-      top:-22px;
-      right:-22px;
-      width:60px;
-      height:60px;
-      background:url("angry.jpg") center/cover no-repeat;
-      border-radius:12px;
-      pointer-events:none;
-    }
+    .no {
+  ...
+  background:url("angry.jpg") center/cover no-repeat;
+  ...
+}
 
     .heartBig {
       position:fixed;
@@ -280,3 +274,4 @@ yesBtn.onclick = () => {
 
 </body>
 </html>
+
