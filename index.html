@@ -89,183 +89,79 @@
     }
 
     .heartBig::before,
-    .heartBig::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: inherit;
-      border-radius: 50%;
-    }
+}
 
-    .heartBig::before { top: -50%; left: 0; }
-    .heartBig::after { left: 50%; top: 0; }
 
-    @keyframes fillHearts {
-      0% {
-        transform: translate(-50%, -50%) rotate(-45deg) scale(0.3);
-        opacity: 0.5;
-      }
-      90% {
-        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.5);
-        opacity: 0.5;
-      }
-      100% {
-        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.5);
-        opacity: 0;
-      }
-    }
+yesBtn.onclick = () => {
+yesBtn.disabled = true;
+yesBtn.innerText = "MY VALENTINE 💘";
+document.querySelector(".card").classList.add("fade-out");
 
-    #page2 {
-      position: fixed;
-      inset: 0;
-      display: none;
-      place-items: center;
-      z-index: 10000;
-      opacity: 0;
-      transition: opacity 300ms ease;
-    }
 
-    #page2.show {
-      display: grid;
-      opacity: 1;
-    }
+const dur = 10000;
 
-    #page2 .big {
-      position: relative;
-      text-align: center;
-      color: #ff0000;
-      font-family: "Times New Roman", serif;
-      font-weight: 900;
-      letter-spacing: 2px;
-      font-size: 64px;
-      text-shadow:
-        -2px -2px 0 #000,
-         2px -2px 0 #000,
-        -2px  2px 0 #000,
-         2px  2px 0 #000;
-      z-index: 2;
-    }
 
-    #page2 .overlayHeart {
-      position: absolute;
-      width: var(--size);
-      height: var(--size);
-      background: rgba(255, 0, 100, 0.25);
-      transform: rotate(-45deg);
-      border-radius: 10px;
-    }
+setTimeout(() => {
+document.querySelector(".card").style.display = "none";
+page2.style.display = "grid";
+requestAnimationFrame(() => page2.classList.add("show"));
+addFloatingHearts();
+}, dur);
 
-    #page2 .overlayHeart::before,
-    #page2 .overlayHeart::after {
-      content: "";
-      position: absolute;
-      width: 100%; height: 100%;
-      background: rgba(255, 0, 100, 0.25);
-      border-radius: 50%;
-    }
 
-    #page2 .overlayHeart::before { top: -50%; left: 0; }
-    #page2 .overlayHeart::after { left: 50%; top: 0; }
-  </style>
-</head>
-<body>
+heartFill(dur);
+};
 
-<div class="card">
-  <h1>Will you be my Valentine? 💘</h1>
-  <p class="love-text">
-    I love your energy, the way you light up every room without even trying.<br>
-    I love how your eyes sparkle when you talk about something that excites you.<br>
-    Being with you feels warm, safe, and real. So… will you make February 14th our day?
-  </p>
-  <div class="cta" id="cta">
-    <button class="yes" id="yesBtn">YES 😍</button>
-    <button class="no" id="noBtn">NO</button>
-  </div>
-</div>
 
-<div id="page2">
-  <div class="big">MY VALENTINE</div>
-</div>
+function heartFill(duration) {
+const colors = ["#ff4d88", "#ff66a3", "#ff85b3", "#ff99c2", "#ffb3d1", "#ffc2dc"];
+const btn = yesBtn.getBoundingClientRect();
+const cx = btn.left + btn.width / 2;
+const cy = btn.top + btn.height / 2;
 
-<script>
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn = document.getElementById("noBtn");
-  const page2 = document.getElementById("page2");
-  const cta = document.getElementById("cta");
 
-  noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("mouseover", moveNo);
-  noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); }, { passive: false });
+const w = window.innerWidth, h = window.innerHeight;
+const count = 200;
+const maxR = Math.hypot(w, h) * 0.9;
 
-  function moveNo() {
-    const rect = cta.getBoundingClientRect();
-    const maxX = Math.max(0, rect.width - 120);
-    const maxY = Math.max(0, rect.height - 56);
-    noBtn.style.left = (Math.random() * maxX) + "px";
-    noBtn.style.top = (Math.random() * maxY) + "px";
-  }
 
-  yesBtn.onclick = () => {
-    yesBtn.disabled = true;
-    yesBtn.innerText = "MY VALENTINE 💘";
-    document.querySelector(".card").classList.add("fade-out");
+for (let i = 0; i < count; i++) {
+const heart = document.createElement("div");
+heart.className = "heartBig";
+const s = 60 + Math.random() * 80;
+heart.style.width = s + "px";
+heart.style.height = s + "px";
+heart.style.left = cx + "px";
+heart.style.top = cy + "px";
+heart.style.setProperty("--c", colors[Math.floor(Math.random() * colors.length)]);
 
-    const dur = 10000;
 
-    setTimeout(() => {
-      document.querySelector(".card").style.display = "none";
-      page2.style.display = "grid";
-      requestAnimationFrame(() => page2.classList.add("show"));
-      addFloatingHearts();
-    }, dur);
+const angle = (i / count) * Math.PI * 2 + (Math.random() * 0.2 - 0.1);
+const dist = (0.4 + Math.random() * 0.6) * maxR;
+heart.style.setProperty("--dx", (Math.cos(angle) * dist) + "px");
+heart.style.setProperty("--dy", (Math.sin(angle) * dist) + "px");
 
-    heartFill(dur);
-  };
 
-  function heartFill(duration) {
-    const colors = ["#ff4d88", "#ff66a3", "#ff85b3", "#ff99c2", "#ffb3d1", "#ffc2dc"];
-    const btn = yesBtn.getBoundingClientRect();
-    const cx = btn.left + btn.width / 2;
-    const cy = btn.top + btn.height / 2;
+heart.style.animation = `fillHearts ${duration}ms ease-out forwards`;
+document.body.appendChild(heart);
+setTimeout(() => heart.remove(), duration + 200);
+}
+}
 
-    const w = window.innerWidth, h = window.innerHeight;
-    const count = 200;
-    const maxR = Math.hypot(w, h) * 0.9;
 
-    for (let i = 0; i < count; i++) {
-      const heart = document.createElement("div");
-      heart.className = "heartBig";
-      const s = 60 + Math.random() * 80;
-      heart.style.width = s + "px";
-      heart.style.height = s + "px";
-      heart.style.left = cx + "px";
-      heart.style.top = cy + "px";
-      heart.style.setProperty("--c", colors[Math.floor(Math.random() * colors.length)]);
-
-      const angle = (i / count) * Math.PI * 2 + (Math.random() * 0.2 - 0.1);
-      const dist = (0.4 + Math.random() * 0.6) * maxR;
-      heart.style.setProperty("--dx", (Math.cos(angle) * dist) + "px");
-      heart.style.setProperty("--dy", (Math.sin(angle) * dist) + "px");
-
-      heart.style.animation = `fillHearts ${duration}ms ease-out forwards`;
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), duration + 200);
-    }
-  }
-
-  function addFloatingHearts() {
-    for (let i = 0; i < 40; i++) {
-      const h = document.createElement("div");
-      h.className = "overlayHeart";
-      const size = 20 + Math.random() * 60;
-      h.style.setProperty("--size", size + "px");
-      h.style.top = Math.random() * 100 + "%";
-      h.style.left = Math.random() * 100 + "%";
-      page2.appendChild(h);
-    }
-  }
+function addFloatingHearts() {
+for (let i = 0; i < 80; i++) {
+const h = document.createElement("div");
+h.className = "overlayHeart";
+const size = 20 + Math.random() * 80;
+h.style.setProperty("--size", size + "px");
+h.style.top = Math.random() * 100 + "%";
+h.style.left = Math.random() * 100 + "%";
+page2.appendChild(h);
+}
+}
 </script>
+
 
 </body>
 </html>
