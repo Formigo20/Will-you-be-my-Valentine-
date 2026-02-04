@@ -5,156 +5,145 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Valentine 💘</title>
   <style>
-    * { box-sizing: border-box; }
+    *{box-sizing:border-box;}
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
       font-family: Arial, sans-serif;
-      color: white;
-      overflow: hidden;
+      color:white;
+      overflow:hidden;
       background:
-        linear-gradient(#00000088, #00000088),
+        linear-gradient(#00000088,#00000088),
         url("photo.jpg") center/cover no-repeat fixed;
     }
 
     .card {
-      width: min(760px, 92vw);
-      padding: 28px;
-      border-radius: 24px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 20px 60px #00000055;
+      width:min(760px,92vw);
+      padding:28px;
+      border-radius:24px;
+      text-align:center;
+      position:relative;
+      box-shadow:0 20px 60px #00000055;
       background:
-        linear-gradient(#000000aa, #000000aa),
+        linear-gradient(#000000aa,#000000aa),
         url("photo3.jpg") center/cover no-repeat;
       transition: opacity 8s ease-in-out;
     }
-
     .card.fade-out {
       opacity: 0;
     }
 
-    h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
-
-    .love-text {
-      line-height: 1.6;
-      font-size: 18px;
-      margin-top: 10px;
-    }
+    h1{font-size:42px;margin-bottom:12px;}
+    .love-text{line-height:1.6;font-size:18px;margin-top:10px;}
 
     .cta {
-      margin-top: 24px;
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      position: relative;
-      min-height: 200px;
+      margin-top:24px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      position:relative;
+      min-height:200px;
     }
 
     .yes {
-      background: linear-gradient(135deg, #ff4d6d, #ff9f1c);
-      border: 0;
-      padding: 8px 16px;
-      border-radius: 14px;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-      position: relative;
-      z-index: 2;
+      background:#005875;
+      color:white;
+      border:2px solid #003f4f;
+      font-size:20px;
+      padding:12px 24px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:600;
     }
 
     .no {
-      position: absolute;
-      left: 220px;
-      top: 0;
-      width: 120px;
-      height: 56px;
-      border-radius: 14px;
-      border: 1px solid #ffffff55;
-      background: url("angry.jpg") center/cover no-repeat;
-      color: white;
-      font-weight: 900;
-      font-size: 18px;
+      position:absolute;
+      left:220px;
+      top:0;
+      width:80px;
+      height:40px;
+      border-radius:14px;
+      border:1px solid #ffffff55;
+      background:url("angry.jpg") center/cover no-repeat;
+      color:white;
+      font-weight:900;
+      font-size:16px;
       text-shadow:
         -1px -1px 0 #000,
          1px -1px 0 #000,
         -1px  1px 0 #000,
          1px  1px 0 #000;
-      box-shadow: 0 12px 30px #00000055;
-      overflow: visible;
+      box-shadow:0 12px 30px #00000055;
+      overflow:visible;
     }
 
     .heartBig {
-      position: fixed;
-      width: 120px;
-      height: 120px;
-      transform: translate(-50%, -50%) rotate(-45deg);
-      background: var(--c, #ff4d88);
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 1;
+      position:fixed;
+      width:120px;
+      height:120px;
+      transform: translate(-50%,-50%) rotate(-45deg);
+      background: var(--c,#ff4d88);
+      pointer-events:none;
+      z-index:9999;
+      opacity:1;
     }
 
     .heartBig::before,
     .heartBig::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: inherit;
-      border-radius: 50%;
+      content:"";
+      position:absolute;
+      width:100%;
+      height:100%;
+      background:inherit;
+      border-radius:50%;
     }
-
-    .heartBig::before { top: -50%; left: 0; }
-    .heartBig::after  { left: 50%; top: 0; }
+    .heartBig::before{ top:-50%; left:0; }
+    .heartBig::after{ left:50%; top:0; }
 
     @keyframes fillHearts {
       0% {
-        transform: translate(-50%, -50%) rotate(-45deg) scale(0.4);
-        opacity: 1;
+        transform: translate(-50%,-50%) rotate(-45deg) scale(0.4);
+        opacity:1;
       }
       70% {
         transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
-        opacity: 1;
+        opacity:1;
       }
       100% {
         transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
-        opacity: 0;
+        opacity:0;
       }
     }
 
     #page2 {
-      position: fixed;
-      inset: 0;
-      display: none;
-      place-items: center;
-      z-index: 10000;
-      background: url("photo2.jpg") center/cover no-repeat;
-      opacity: 0;
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      z-index:10000;
+      background:
+        linear-gradient(#00000088,#00000088),
+        url("photo.jpg") center/cover no-repeat fixed;
+      opacity:0;
       transition: opacity 8s ease;
     }
-
-    #page2.show { opacity: 1; }
+    #page2.show { opacity:1; }
 
     #page2 .overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(#00000055, #00000055);
+      position:absolute;
+      inset:0;
     }
 
     #page2 .big {
-      position: relative;
-      text-align: center;
-      color: #ff0000;
-      font-family: "Times New Roman", serif;
-      font-weight: 900;
-      letter-spacing: 2px;
+      position:relative;
+      text-align:center;
+      color:#ff0000;
+      font-family:"Times New Roman",serif;
+      font-weight:900;
+      letter-spacing:2px;
       text-shadow:
         -2px -2px 0 #000,
          2px -2px 0 #000,
@@ -163,15 +152,15 @@
     }
 
     #page2 .my {
-      font-size: clamp(52px, 7vw, 92px);
-      line-height: 1;
+      font-size:clamp(52px,7vw,92px);
+      line-height:1;
     }
 
     #page2 .val {
-      font-size: clamp(72px, 10vw, 160px);
-      line-height: 1;
-      position: relative;
-      z-index: 2;
+      font-size:clamp(72px,10vw,160px);
+      line-height:1;
+      position:relative;
+      z-index:2;
     }
   </style>
 </head>
@@ -208,8 +197,7 @@ function moveNo() {
   const buttonRect = noBtn.getBoundingClientRect();
   const centerX = buttonRect.left + buttonRect.width / 2;
   const centerY = buttonRect.top + buttonRect.height / 2;
-
-  const maxRadius = 189; // 5 cm in pixels
+  const maxRadius = 189; // 5cm in px
 
   const angle = Math.random() * 2 * Math.PI;
   const distance = Math.random() * maxRadius;
