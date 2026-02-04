@@ -18,19 +18,20 @@
       font-family: Arial, sans-serif;
       color: white;
       overflow: hidden;
-      background: linear-gradient(#00000088,#00000088),
+      background: linear-gradient(#00000088, #00000088),
                   url("photo.jpg") center/cover no-repeat fixed;
     }
 
     /* -------- PAGE 1 -------- */
+
     .card {
-      width: min(760px,92vw);
+      width: min(760px, 92vw);
       padding: 28px;
       border-radius: 24px;
       text-align: center;
       position: relative;
       box-shadow: 0 20px 60px #00000055;
-      background: linear-gradient(#000000aa,#000000aa),
+      background: linear-gradient(#000000aa, #000000aa),
                   url("photo3.jpg") center/cover no-repeat;
       transition: opacity 0.8s ease-in-out;
     }
@@ -60,7 +61,7 @@
     }
 
     .yes {
-      background: linear-gradient(135deg,#ff4d6d,#ff9f1c);
+      background: linear-gradient(135deg, #ff4d6d, #ff9f1c);
       border: 0;
       padding: 14px 20px;
       border-radius: 14px;
@@ -81,8 +82,11 @@
       color: white;
       font-weight: 900;
       font-size: 18px;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
-                   -1px 1px 0 #000, 1px 1px 0 #000;
+      text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
       box-shadow: 0 12px 30px #00000055;
       overflow: visible;
     }
@@ -100,12 +104,13 @@
     }
 
     /* -------- HEART TRANSITION -------- */
+
     .heartBig {
       position: fixed;
       width: 120px;
       height: 120px;
-      transform: translate(-50%,-50%) rotate(-45deg);
-      background: var(--c,#ff4d88);
+      transform: translate(-50%, -50%) rotate(-45deg);
+      background: var(--c, #ff4d88);
       pointer-events: none;
       z-index: 9999;
       opacity: 1;
@@ -133,24 +138,25 @@
 
     @keyframes fillHearts {
       0% {
-        transform: translate(-50%,-50%) rotate(-45deg) scale(0.4);
+        transform: translate(-50%, -50%) rotate(-45deg) scale(0.4);
         opacity: 1;
       }
       70% {
-        transform: translate(calc(-50% + var(--dx)),
-                             calc(-50% + var(--dy)))
-                   rotate(-45deg) scale(1.55);
+        transform:
+          translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+          rotate(-45deg) scale(1.55);
         opacity: 1;
       }
       100% {
-        transform: translate(calc(-50% + var(--dx)),
-                             calc(-50% + var(--dy)))
-                   rotate(-45deg) scale(1.55);
+        transform:
+          translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+          rotate(-45deg) scale(1.55);
         opacity: 0;
       }
     }
 
     /* -------- PAGE 2 -------- */
+
     #page2 {
       position: fixed;
       inset: 0;
@@ -169,7 +175,7 @@
     #page2 .overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(#00000055,#00000055);
+      background: linear-gradient(#00000055, #00000055);
     }
 
     #page2 .big {
@@ -179,33 +185,59 @@
       font-family: "Times New Roman", serif;
       font-weight: 900;
       letter-spacing: 2px;
-      text-shadow: -2px -2px 0 #000, 2px -2px 0 #000,
-                   -2px 2px 0 #000, 2px 2px 0 #000;
+      text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;
     }
 
     #page2 .my {
-      font-size: clamp(52px,7vw,92px);
+      font-size: clamp(52px, 7vw, 92px);
+      line-height: 1;
     }
 
     #page2 .val {
-      font-size: clamp(72px,10vw,160px);
+      font-size: clamp(72px, 10vw, 160px);
+      line-height: 1;
       position: relative;
       z-index: 2;
+    }
+
+    #page2 .heartTop,
+    #page2 .heartBR {
+      position: absolute;
+      background: #ff0000;
+      transform: rotate(-45deg);
+      border-radius: 10px;
+    }
+
+    #page2 .heartTop {
+      width: 80px;
+      height: 80px;
+      top: -20px;
+      left: 20%;
+      z-index: 3;
+    }
+
+    #page2 .heartBR {
+      width: 120px;
+      height: 120px;
+      bottom: -20px;
+      right: 8%;
+      transform: translate(38px, 57px) rotate(-45deg);
+      z-index: 1;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- PAGE 1 -->
   <div class="card">
     <h1>Will you be my Valentine? 💘</h1>
 
     <p class="love-text">
-      I love your energy, the way you light up every room without even trying.<br>
-      I love how your eyes sparkle when you talk about something that excites you.<br>
-      Being with you feels warm, safe, and real.<br>
-      So… will you make February 14th our day?
+      I love your energy... So… will you make February 14th our day?
     </p>
 
     <div class="cta" id="cta">
@@ -214,7 +246,6 @@
     </div>
   </div>
 
-  <!-- PAGE 2 -->
   <div id="page2">
     <div class="overlay"></div>
     <div class="big">
@@ -227,18 +258,41 @@
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const cta = document.getElementById("cta");
+    const page2 = document.getElementById("page2");
 
     function moveNo() {
       const rect = cta.getBoundingClientRect();
-      noBtn.style.left = Math.random() * (rect.width - 120) + "px";
-      noBtn.style.top = Math.random() * (rect.height - 56) + "px";
+      const maxX = Math.max(0, rect.width - 120);
+      const maxY = Math.max(0, rect.height - 56);
+
+      noBtn.style.left = (Math.random() * maxX) + "px";
+      noBtn.style.top = (Math.random() * maxY) + "px";
     }
 
     noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("mouseover", moveNo);
+
+    function heartFill() {
+      const btn = yesBtn.getBoundingClientRect();
+      const cx = btn.left + btn.width / 2;
+      const cy = btn.top + btn.height / 2;
+
+      page2.style.display = "grid";
+      requestAnimationFrame(() => page2.classList.add("show"));
+
+      return 1350;
+    }
 
     yesBtn.onclick = () => {
+      yesBtn.disabled = true;
       yesBtn.innerText = "MY VALENTINE 💘";
-      alert("She said YES 💖");
+      document.querySelector(".card").classList.add("fade-out");
+
+      const dur = heartFill();
+
+      setTimeout(() => {
+        document.querySelector(".card").style.display = "none";
+      }, dur);
     };
   </script>
 
