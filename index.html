@@ -28,9 +28,9 @@
       position: relative;
       box-shadow: 0 20px 60px #00000055;
       background:
-        linear-gradient(#000000aa,#000000aa),
+        linear-gradient(#00000055, #00000055),
         url("photo3.jpg") center/cover no-repeat;
-      transition: opacity 10s ease-in-out; /* 10 second fade */
+      transition: opacity 10s ease-in-out;
     }
 
     .card.fade-out {
@@ -60,32 +60,23 @@
       z-index: 2;
     }
 
-    .no {
-      position: absolute;
-      left: 220px;
+   .no {
+      position: fixed;
       width: 120px;
       height: 56px;
       border-radius: 14px;
-      border: 1px solid #ffffff55;
-      background: #1e293b;
+      border: 2px solid white;
+      background: url("angry.jpg") center/cover no-repeat;
       color: white;
       font-weight: 900;
       font-size: 18px;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
-                   -1px 1px 0 #000, 1px 1px 0 #000;
       box-shadow: 0 12px 30px #00000055;
+      cursor: pointer;
+      z-index: 9999;
     }
 
     .no::after {
-      content: "";
-      position: absolute;
-      top: -22px;
-      right: -22px;
-      width: 60px;
-      height: 60px;
-      background: url("angry.jpg") center/cover no-repeat;
-      border-radius: 12px;
-      pointer-events: none;
+      display: none;
     }
 
     .heartBig {
@@ -247,18 +238,19 @@
   noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); }, { passive: false });
 
   function moveNo() {
-    const rect = cta.getBoundingClientRect();
-    const maxX = Math.max(0, rect.width - 120);
-    const maxY = Math.max(0, rect.height - 56);
-    noBtn.style.left = (Math.random() * maxX) + "px";
-    noBtn.style.top = (Math.random() * maxY) + "px";
+    const w = window.innerWidth - 120;
+    const h = window.innerHeight - 56;
+    const randX = Math.random() * w;
+    const randY = Math.random() * h;
+    noBtn.style.left = randX + "px";
+    noBtn.style.top = randY + "px";
   }
 
   yesBtn.onclick = () => {
     yesBtn.disabled = true;
     yesBtn.innerText = "MY VALENTINE 💘";
 
-    const dur = 10000; // 10 seconds
+    const dur = 10000;
 
     document.querySelector(".card").classList.add("fade-out");
 
