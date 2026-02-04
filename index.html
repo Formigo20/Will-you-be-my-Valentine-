@@ -117,18 +117,18 @@ h1{font-size:42px;margin-bottom:12px;}
 .heartBig::before{ top:-50%; left:0; }
 .heartBig::after{ left:50%; top:0; }
 
-@keyframes fillHearts{
-  0%{
+@keyframes fillHearts {
+  0% {
     transform: translate(-50%,-50%) rotate(-45deg) scale(0.4);
-    opacity:1;
+    opacity: 1;
   }
-  70%{
+  60% {
     transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
-    opacity:1;
+    opacity: 1;
   }
-  100%{
+  100% {
     transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
-    opacity:0;
+    opacity: 0;
   }
 }
 
@@ -278,7 +278,7 @@ function heartFill(){
   requestAnimationFrame(()=> page2.classList.add("show"));
 
   const maxR=Math.hypot(w, h)*0.92;
-  const dur=2500;
+  const dur=3500;
 
   for(let i=0;i<count;i++){
     const heart=document.createElement("div");
@@ -325,5 +325,6 @@ yesBtn.onclick = () => {
 
 </body>
 </html>
+
 
 
