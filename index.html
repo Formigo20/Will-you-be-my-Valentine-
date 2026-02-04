@@ -142,7 +142,6 @@ h1{font-size:42px;margin-bottom:12px;}
   background:url("photo2.jpg") center/cover no-repeat;
   opacity:0;
   transition: opacity 220ms ease;
-  overflow:hidden;
 }
 #page2.show{ opacity:1; }
 
@@ -152,60 +151,6 @@ h1{font-size:42px;margin-bottom:12px;}
   background:linear-gradient(#00000055,#00000055);
 }
 
-/* --- NEW: page2 images --- */
-#page2 .p2-img{
-  position:absolute;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-size:cover;
-  border-radius:22px;
-  box-shadow:0 18px 45px #00000066;
-  border:1px solid #ffffff33;
-  z-index:2;
-  pointer-events:none;
-}
-
-/* grandes (um pouco maior que as letras) */
-#page2 .p2-left{
-  left:4.5vw;
-  top:50%;
-  transform:translateY(-50%);
-  width:min(36vw, 520px);
-  height:min(52vh, 520px);
-  background-image:url("photo5.jpg");
-}
-
-#page2 .p2-right{
-  right:4.5vw;
-  top:50%;
-  transform:translateY(-50%);
-  width:min(36vw, 520px);
-  height:min(52vh, 520px);
-  background-image:url("photo6.jpg");
-}
-
-/* extras (cantos) */
-#page2 .p2-top-left{
-  left:18px;
-  top:18px;
-  width:min(14vw, 180px);
-  height:min(14vw, 180px);
-  background-image:url("photo4.jpg");
-  z-index:1;
-  opacity:0.95;
-}
-
-#page2 .p2-bottom-right{
-  right:18px;
-  bottom:18px;
-  width:min(14vw, 180px);
-  height:min(14vw, 180px);
-  background-image:url("photo7.jpg");
-  z-index:1;
-  opacity:0.95;
-}
-
-/* mantém as letras em cima das imagens grandes */
 #page2 .big{
   position:relative;
   text-align:center;
@@ -218,7 +163,6 @@ h1{font-size:42px;margin-bottom:12px;}
      2px -2px 0 #000,
     -2px  2px 0 #000,
      2px  2px 0 #000;
-  z-index:3;
 }
 
 #page2 .my{
@@ -293,13 +237,6 @@ h1{font-size:42px;margin-bottom:12px;}
 
 <div id="page2">
   <div class="overlay"></div>
-
-  <!-- NEW images -->
-  <div class="p2-img p2-top-left"></div>
-  <div class="p2-img p2-bottom-right"></div>
-  <div class="p2-img p2-left"></div>
-  <div class="p2-img p2-right"></div>
-
   <div class="big">
     <div class="heartTop"></div>
     <div class="heartBR"></div>
@@ -314,17 +251,16 @@ const noBtn = document.getElementById("noBtn");
 const cta = document.getElementById("cta");
 const page2 = document.getElementById("page2");
 
-/* --- NEW: NO button flee within ~10cm radius --- */
-const CM_TO_PX = 37.7952755906;  // ~96dpi assumption
-const FLEE_RADIUS_PX = 10 * CM_TO_PX; // ~378px
+/* --- NEW: NO button flees within ~10cm radius --- */
+const CM_TO_PX = 37.7952755906;   // approx conversion (96dpi)
+const RADIUS_PX = 10 * CM_TO_PX;  // ~378px
 
-let noHome = null; // {x,y} in px relative to cta
+let noHome = null; // {x,y} relative to cta
 
 function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
 
 function ensureNoHome(){
-  if(noHome) return;
-  // get current computed position relative to cta
+  if (noHome) return;
   const left = parseFloat(getComputedStyle(noBtn).left) || 0;
   const top  = parseFloat(getComputedStyle(noBtn).top)  || 0;
   noHome = { x:left, y:top };
@@ -340,14 +276,14 @@ function moveNo(){
   const maxX = Math.max(0, rect.width - btnW);
   const maxY = Math.max(0, rect.height - btnH);
 
-  // random point inside a circle of radius FLEE_RADIUS_PX
+  // random point inside a circle (uniform distribution)
   const a = Math.random() * Math.PI * 2;
-  const r = Math.sqrt(Math.random()) * FLEE_RADIUS_PX;
+  const r = Math.sqrt(Math.random()) * RADIUS_PX;
 
   let x = noHome.x + Math.cos(a) * r;
   let y = noHome.y + Math.sin(a) * r;
 
-  // keep inside the cta area
+  // keep inside the CTA box
   x = clamp(x, 0, maxX);
   y = clamp(y, 0, maxY);
 
@@ -419,6 +355,6 @@ yesBtn.onclick = () => {
   if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
 };
 </script>
-
 </body>
 </html>
+
