@@ -21,7 +21,6 @@ body{
     url("photo.jpg") center/cover no-repeat fixed;
 }
 
-/* -------- PAGE 1 -------- */
 .card{
   width:min(760px,92vw);
   padding:28px;
@@ -34,9 +33,7 @@ body{
     url("photo3.jpg") center/cover no-repeat;
   transition: opacity 0.8s ease-in-out;
 }
-.card.fade-out {
-  opacity: 0;
-}
+.card.fade-out { opacity: 0; }
 
 h1{font-size:42px;margin-bottom:12px;}
 .love-text{line-height:1.6;font-size:18px;margin-top:10px;}
@@ -93,7 +90,6 @@ h1{font-size:42px;margin-bottom:12px;}
   pointer-events:none;
 }
 
-/* -------- HEART TRANSITION (BIG, CIRCLE FILL) -------- */
 .heartBig{
   position:fixed;
   width:120px;
@@ -132,14 +128,15 @@ h1{font-size:42px;margin-bottom:12px;}
   }
 }
 
-/* -------- PAGE 2 -------- */
 #page2{
   position:fixed;
   inset:0;
   display:none;
   place-items:center;
   z-index:10000;
-  background:url("photo.jpg") center/cover no-repeat;
+  background:
+    linear-gradient(#00000088,#00000088),
+    url("photo.jpg") center/cover no-repeat fixed;
   opacity:0;
   transition: opacity 220ms ease;
 }
@@ -149,23 +146,6 @@ h1{font-size:42px;margin-bottom:12px;}
   position:absolute;
   inset:0;
   background:linear-gradient(#00000055,#00000055);
-  z-index:1;
-}
-
-#page2 .gif-container{
-  position:absolute;
-  bottom:40px;
-  width:100%;
-  display:flex;
-  justify-content:space-around;
-  z-index:2;
-}
-
-#page2 .gif-container img{
-  width:150px;
-  height:auto;
-  mix-blend-mode:normal;
-  filter: drop-shadow(0 0 8px black);
 }
 
 #page2 .big{
@@ -175,7 +155,6 @@ h1{font-size:42px;margin-bottom:12px;}
   font-family:"Times New Roman",serif;
   font-weight:900;
   letter-spacing:2px;
-  z-index:3;
   text-shadow:
     -2px -2px 0 #000,
      2px -2px 0 #000,
@@ -231,6 +210,25 @@ h1{font-size:42px;margin-bottom:12px;}
 #page2 .heartBR::before{top:-50%;left:0;}
 #page2 .heartTop::after,
 #page2 .heartBR::after{left:50%;top:0;}
+
+/* GIFs */
+.gif-row {
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.gif-row img {
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  object-fit: cover;
+  opacity: 0.95;
+}
 </style>
 </head>
 
@@ -255,20 +253,19 @@ h1{font-size:42px;margin-bottom:12px;}
 
 <div id="page2">
   <div class="overlay"></div>
-
-  <!-- GIFs container -->
-  <div class="gif-container">
-    <img src="photo4.jpg" alt="gif1">
-    <img src="photo5.jpg" alt="gif2">
-    <img src="photo6.jpg" alt="gif3">
-    <img src="photo7.jpg" alt="gif4">
-  </div>
-
   <div class="big">
     <div class="heartTop"></div>
     <div class="heartBR"></div>
     <div class="my">MY</div>
     <div class="val">VALENTINE</div>
+  </div>
+
+  <!-- GIFS -->
+  <div class="gif-row">
+    <img src="photo4.jpg" alt="GIF 1">
+    <img src="photo5.jpg" alt="GIF 2">
+    <img src="photo6.jpg" alt="GIF 3">
+    <img src="photo7.jpg" alt="GIF 4">
   </div>
 </div>
 
@@ -279,12 +276,20 @@ const cta = document.getElementById("cta");
 const page2 = document.getElementById("page2");
 
 function moveNo(){
-  const rect=cta.getBoundingClientRect();
-  const maxX=Math.max(0, rect.width-120);
-  const maxY=Math.max(0, rect.height-56);
-  noBtn.style.left=(Math.random()*maxX)+"px";
-  noBtn.style.top=(Math.random()*maxY)+"px";
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  const radius = 265; // 7 cm in pixels approx
+
+  const angle = Math.random() * 2 * Math.PI;
+  const r = Math.random() * radius;
+
+  const x = centerX + r * Math.cos(angle);
+  const y = centerY + r * Math.sin(angle);
+
+  noBtn.style.left = x - 60 + "px"; // 60 = half of button width
+  noBtn.style.top = y - 28 + "px";  // 28 = half of button height
 }
+
 noBtn.addEventListener("mouseenter",moveNo);
 noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("touchstart",e=>{e.preventDefault();moveNo();},{passive:false});
