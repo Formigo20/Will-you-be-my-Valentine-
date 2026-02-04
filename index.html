@@ -1,47 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Valentine 💘</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
-    body {
-      background:
-        linear-gradient(#00000088,#00000088),
-        url("photo.jpg") center/cover no-repeat fixed;
-      display: grid;
-      place-items: center;
-      color: white;
-    }
-    .card {
+.card {
       width: min(760px, 92vw);
       padding: 28px;
       border-radius: 24px;
       text-align: center;
       position: relative;
       box-shadow: 0 20px 60px #00000055;
-      background: linear-gradient(#000000aa,#000000aa);
-      transition: opacity 10s ease-in-out;
+      background:
+        linear-gradient(#000000aa, #000000aa),
+        url("photo3.jpg") center/cover no-repeat;
+      transition: opacity 0.8s ease-in-out;
     }
+
     .card.fade-out {
       opacity: 0;
+      transition: opacity 10s ease-in-out;
     }
-    h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
+
+    h1 { font-size: 42px; margin-bottom: 12px; }
+
     .love-text {
       line-height: 1.6;
       font-size: 18px;
       margin-top: 10px;
     }
+
     .cta {
       margin-top: 24px;
       display: flex;
@@ -50,6 +32,7 @@
       position: relative;
       min-height: 70px;
     }
+
     .yes {
       background: linear-gradient(135deg, #ff4d6d, #ff9f1c);
       border: 0;
@@ -60,6 +43,7 @@
       position: relative;
       z-index: 2;
     }
+
     .no {
       position: absolute;
       left: 220px;
@@ -71,7 +55,14 @@
       color: white;
       font-weight: 900;
       font-size: 18px;
+      text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+      box-shadow: 0 12px 30px #00000055;
     }
+
     .no::after {
       content: "";
       position: absolute;
@@ -84,46 +75,73 @@
       pointer-events: none;
     }
 
+    /* PAGE 2 */
     #page2 {
       position: fixed;
       inset: 0;
       display: none;
       place-items: center;
       z-index: 10000;
+      background:
+        linear-gradient(#00000055, #00000055),
+        url("photo.jpg") center/cover no-repeat fixed;
+      opacity: 0;
+      transition: opacity 220ms ease;
     }
+
     #page2.show {
-      display: grid;
+      opacity: 1;
     }
-    #page2 .val-text {
-      position: absolute;
-      font-size: 12vw;
-      color: red;
+
+    #page2 .big {
+      position: relative;
+      text-align: center;
+      color: #ff0000;
+      font-family: "Times New Roman", serif;
       font-weight: 900;
-      letter-spacing: 4px;
-      top: 65%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-shadow: 2px 2px 0 #000, -2px -2px 0 #000;
+      letter-spacing: 2px;
+      text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;
     }
-    #page2 .val-text::before {
-      content: "MY";
+
+    .my {
       position: absolute;
-      top: -6vw;
-      left: -20vw;
-      font-size: 8vw;
-      color: red;
-      text-shadow: 2px 2px 0 #000;
+      top: 20%;
+      left: 10%;
+      font-size: 120px;
+      z-index: 2;
     }
-    .heart {
+
+    .val {
       position: absolute;
-      width: 60px;
-      height: 60px;
-      background: rgba(255,0,100,0.3);
+      bottom: 15%;
+      left: 5%;
+      font-size: 120px;
+      z-index: 2;
+    }
+
+    .heartBg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .heartStatic {
+      position: absolute;
+      background: rgba(255, 0, 102, 0.25);
+      width: var(--s, 60px);
+      height: var(--s, 60px);
       transform: rotate(-45deg);
       border-radius: 10px;
     }
-    .heart::before,
-    .heart::after {
+
+    .heartStatic::before,
+    .heartStatic::after {
       content: "";
       position: absolute;
       width: 100%;
@@ -131,17 +149,177 @@
       background: inherit;
       border-radius: 50%;
     }
-    .heart::before {
+
+    .heartStatic::before {
       top: -50%;
       left: 0;
     }
-    .heart::after {
-      top: 0;
+
+    .heartStatic::after {
       left: 50%;
+      top: 0;
+    }
+
+    .heartBig {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      background: var(--c, #ff4d88);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 1;
+    }
+
+    .heartBig::before,
+    .heartBig::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heartBig::before {
+      top: -50%;
+      left: 0;
+    }
+
+    .heartBig::after {
+      left: 50%;
+      top: 0;
+    }
+
+    @keyframes fillHearts {
+      0% {
+        transform: translate(-50%, -50%) rotate(-45deg) scale(0.4);
+        opacity: 1;
+      }
+      70% {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.5);
+        opacity: 0;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="card">
-    <h1>Will you be my Valentine? 💘</h1>
-    <p class="love-text
+
+<div class="card">
+  <h1>Will you be my Valentine? 💘</h1>
+  <p class="love-text">
+    I love your energy, the way you light up every room without even trying.<br>
+    I love how your eyes sparkle when you talk about something that excites you.<br>
+    I love the way you allow yourself to be vulnerable with me.<br>
+    Being with you feels warm, safe, and real.<br>
+    So… will you make February 14th our day?
+  </p>
+  <div class="cta" id="cta">
+    <button class="yes" id="yesBtn">YES 😍</button>
+    <button class="no" id="noBtn">NO</button>
+  </div>
+</div>
+
+<div id="page2">
+  <div class="big">
+    <div class="my">MY</div>
+    <div class="val">VALENTINE</div>
+  </div>
+  <div class="heartBg" id="staticHearts"></div>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const cta = document.getElementById("cta");
+const page2 = document.getElementById("page2");
+
+function moveNo() {
+  const rect = cta.getBoundingClientRect();
+  const maxX = Math.max(0, rect.width - 120);
+  const maxY = Math.max(0, rect.height - 56);
+  noBtn.style.left = (Math.random() * maxX) + "px";
+  noBtn.style.top = (Math.random() * maxY) + "px";
+}
+
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", e => {
+  e.preventDefault();
+  moveNo();
+}, { passive: false });
+
+function createStaticHearts() {
+  const container = document.getElementById("staticHearts");
+  for (let i = 0; i < 80; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heartStatic";
+    heart.style.left = `${Math.random() * 100}%`;
+    heart.style.top = `${Math.random() * 100}%`;
+    heart.style.setProperty("--s", `${40 + Math.random() * 50}px`);
+    container.appendChild(heart);
+  }
+}
+
+function heartFill() {
+  const colors = ["#ff4d88", "#ff66a3", "#ff85b3", "#ff99c2", "#ffb3d1", "#ffc2dc"];
+  const btn = yesBtn.getBoundingClientRect();
+  const cx = btn.left + btn.width / 2;
+  const cy = btn.top + btn.height / 2;
+
+  const w = window.innerWidth, h = window.innerHeight;
+  const area = w * h;
+  const baseSize = 120 * 120;
+  const count = Math.max(70, Math.min(160, Math.round(area / (baseSize * 1.05))));
+
+  page2.style.display = "grid";
+  requestAnimationFrame(() => page2.classList.add("show"));
+  createStaticHearts();
+
+  const maxR = Math.hypot(w, h) * 0.92;
+  const dur = 3500;
+
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heartBig";
+    const s = 92 + Math.random() * 70;
+    heart.style.width = s + "px";
+    heart.style.height = s + "px";
+    heart.style.left = cx + "px";
+    heart.style.top = cy + "px";
+    heart.style.setProperty("--c", colors[Math.floor(Math.random() * colors.length)]);
+
+    const angle = (i / count) * Math.PI * 2 + (Math.random() * 0.18 - 0.09);
+    const dist = (0.55 + Math.random() * 0.55) * maxR;
+    heart.style.setProperty("--dx", (Math.cos(angle) * dist) + "px");
+    heart.style.setProperty("--dy", (Math.sin(angle) * dist) + "px");
+    heart.style.animation = `fillHearts ${dur}ms ease-out forwards`;
+
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), dur + 80);
+  }
+
+  return dur;
+}
+
+yesBtn.onclick = () => {
+  yesBtn.disabled = true;
+  yesBtn.innerText = "MY VALENTINE 💘";
+  document.querySelector(".card").classList.add("fade-out");
+
+  const dur = heartFill();
+
+  setTimeout(() => {
+    document.querySelector(".card").style.display = "none";
+  }, dur);
+
+  if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
+};
+</script>
+</body>
+</html>
