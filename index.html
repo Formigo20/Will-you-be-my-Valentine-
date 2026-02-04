@@ -91,4 +91,231 @@ h1{font-size:42px;margin-bottom:12px;}
   right:-22px;
   width:60px;
   height:60px;
-  background:url("angry.jpg") center/cover no-repea
+  background:url("angry.jpg") center/cover no-repeat;
+  border-radius:12px;
+  pointer-events:none;
+}
+
+/* --- HEART BALLOONS / HEART CONFETTI --- */
+.heart{
+  position:fixed;
+  width:18px;
+  height:18px;
+  transform: translate(-50%,-50%) rotate(0deg);
+  pointer-events:none;
+  z-index:9999;
+  will-change: transform, opacity;
+}
+
+.heart::before,
+.heart::after{
+  content:"";
+  position:absolute;
+  width:10px;
+  height:16px;
+  background: var(--c, #ff66a3);
+  border-radius: 10px 10px 0 0;
+  top:2px;
+}
+
+.heart::before{
+  left:7px;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.heart::after{
+  left:1px;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+@keyframes burst {
+  to{
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+/* --- SECOND PAGE (overlay) --- */
+#page2{
+  position:fixed;
+  inset:0;
+  display:none;
+  place-items:center;
+  background:#000;
+  z-index:10000;
+}
+
+#page2::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url("photo2.jpg") center/cover no-repeat;
+  filter: brightness(.78);
+}
+
+#page2 .overlay{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(#00000055, #00000055);
+}
+
+#page2 .big{
+  position:relative;
+  text-align:center;
+  color:#ff0000;
+  font-family: "Times New Roman", serif;
+  font-weight:900;
+  letter-spacing: 2px;
+  text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000;
+}
+
+#page2 .my{
+  font-size: clamp(52px, 7vw, 92px);
+  line-height:1;
+  margin-bottom: 8px;
+}
+
+#page2 .val{
+  font-size: clamp(72px, 10vw, 160px);
+  line-height:1;
+}
+
+#page2 .heartL,
+#page2 .heartR{
+  position:absolute;
+  width: clamp(38px, 6vw, 80px);
+  height: clamp(38px, 6vw, 80px);
+  background:#ff0000;
+  transform: rotate(-45deg);
+  border-radius: 10px;
+}
+
+#page2 .heartL::before,
+#page2 .heartL::after,
+#page2 .heartR::before,
+#page2 .heartR::after{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#ff0000;
+  border-radius:50%;
+}
+
+#page2 .heartL::before,
+#page2 .heartR::before{ top:-50%; left:0; }
+#page2 .heartL::after,
+#page2 .heartR::after{ left:50%; top:0; }
+
+#page2 .heartL{ top: -10px; left: 18%; }
+#page2 .heartR{ bottom: -10px; right: 10%; }
+
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="card" id="page1">
+  <h1>Will you be my Valentine? 💘</h1>
+
+  <p class="love-text">
+    I love your energy, the way you light up every room without even trying.<br>
+    I love how your eyes sparkle when you talk about something that excites you, like the whole world pauses just to listen.<br>
+    I love the way you allow yourself to be vulnerable with me, how you trust me enough to show your soft side.<br>
+    Being with you feels warm, safe, and real, and I wouldn’t trade that feeling for anything.<br>
+    So… will you make February 14th our day?
+  </p>
+
+  <div class="cta" id="cta">
+    <button class="yes" id="yesBtn">YES 😍</button>
+    <button class="no" id="noBtn">NO</button>
+  </div>
+</div>
+
+<!-- PAGE 2 (overlay) -->
+<div id="page2">
+  <div class="overlay"></div>
+  <div class="big">
+    <div class="heartL" aria-hidden="true"></div>
+    <div class="heartR" aria-hidden="true"></div>
+    <div class="my">MY</div>
+    <div class="val">VALENTINE</div>
+  </div>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn  = document.getElementById("noBtn");
+const cta    = document.getElementById("cta");
+const page2  = document.getElementById("page2");
+
+/* NO BUTTON RUNS */
+function moveNo(){
+  const rect = cta.getBoundingClientRect();
+  const maxX = Math.max(0, rect.width - 120);
+  const maxY = Math.max(0, rect.height - 56);
+  noBtn.style.left = (Math.random() * maxX) + "px";
+  noBtn.style.top  = (Math.random() * maxY) + "px";
+}
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); }, {passive:false});
+
+/* HEART BURST */
+function heartBurst(){
+  const pinks = ["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1","#ffc2dc"];
+  const r = yesBtn.getBoundingClientRect();
+  const x0 = r.left + r.width/2;
+  const y0 = r.top + r.height/2;
+
+  const count = 120; // "explode"
+  for(let i=0;i<count;i++){
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.style.left = x0 + "px";
+    h.style.top  = y0 + "px";
+    h.style.setProperty("--c", pinks[Math.floor(Math.random()*pinks.length)]);
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 80 + Math.random() * 420;
+    const dx    = Math.cos(angle) * dist + "px";
+    const dy    = Math.sin(angle) * dist + "px";
+    const rot   = (Math.random()*720 - 360) + "deg";
+    h.style.setProperty("--dx", dx);
+    h.style.setProperty("--dy", dy);
+    h.style.setProperty("--rot", rot);
+
+    const dur = 900 + Math.random()*900; // ms
+    h.style.animation = `burst ${dur}ms ease-out forwards`;
+
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), dur + 60);
+  }
+}
+
+/* YES CLICK: explode + switch page */
+yesBtn.addEventListener("click", () => {
+  yesBtn.disabled = true;
+  yesBtn.textContent = "MY VALENTINE 💘";
+
+  heartBurst();
+
+  // show second page after the explosion starts
+  setTimeout(() => {
+    page2.style.display = "grid";
+  }, 650);
+
+  if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
+});
+</script>
+
+</body>
+</html>
+
