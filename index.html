@@ -51,12 +51,13 @@
     .yes {
       background:linear-gradient(135deg,#ff4d6d,#ff9f1c);
       border:0;
-      padding:14px 20px;
+      padding: 10px 14px;
       border-radius:14px;
       font-weight:bold;
       cursor:pointer;
       position:relative;
       z-index:2;
+      padding: 10px 14px;
     }
 
     .no {
@@ -200,24 +201,27 @@ const noBtn = document.getElementById("noBtn");
 const page2 = document.getElementById("page2");
 
 function moveNo() {
-  const radiusPx = 188; // 5cm ≈ 188px
-  const initialTop = noBtn.offsetTop;
-  const initialLeft = noBtn.offsetLeft;
+  const buttonRect = noBtn.getBoundingClientRect();
+  const centerX = buttonRect.left + buttonRect.width / 2;
+  const centerY = buttonRect.top + buttonRect.height / 2;
 
-  let angle = Math.random() * 2 * Math.PI;
-  let distance = Math.random() * radiusPx;
+  const maxRadius = 189; // 5cm em pixels
 
-  let offsetX = Math.cos(angle) * distance;
-  let offsetY = Math.sin(angle) * distance;
+  const angle = Math.random() * 2 * Math.PI;
+  const distance = Math.random() * maxRadius;
 
-  // Garante que o botão não sai da janela
-  let newLeft = Math.min(
-    Math.max(0, initialLeft + offsetX),
-    window.innerWidth - noBtn.offsetWidth
+  const offsetX = Math.cos(angle) * distance;
+  const offsetY = Math.sin(angle) * distance;
+
+  // Garante que o botão fica dentro da janela
+  const newLeft = Math.min(
+    Math.max(0, centerX + offsetX - buttonRect.width / 2),
+    window.innerWidth - buttonRect.width
   );
-  let newTop = Math.min(
-    Math.max(0, initialTop + offsetY),
-    window.innerHeight - noBtn.offsetHeight
+
+  const newTop = Math.min(
+    Math.max(0, centerY + offsetY - buttonRect.height / 2),
+    window.innerHeight - buttonRect.height
   );
 
   noBtn.style.left = `${newLeft}px`;
@@ -289,6 +293,7 @@ yesBtn.onclick = () => {
 
 </body>
 </html>
+
 
 
 
