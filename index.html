@@ -307,7 +307,7 @@ function heartFill(extraFromButton = 40){
   const count = baseCount + extraFromButton;
 
   const maxR=Math.hypot(w, h)*0.95;
-  const dur=1450; // fade out at end
+  const dur=2600; // fade out at end
 
   // distribute first baseCount around full circle, then add extraFromButton with small spread (thick layer)
   for(let i=0;i<count;i++){
@@ -337,7 +337,7 @@ function heartFill(extraFromButton = 40){
 
     heart.style.setProperty("--dx", (Math.cos(angle)*dist)+"px");
     heart.style.setProperty("--dy", (Math.sin(angle)*dist)+"px");
-    heart.style.animation = `fillHearts ${dur}ms ease-out forwards`;
+    heart.style.animation = `fillHearts ${dur}ms cubic-bezier(.22,.61,.36,1) forwards`; ${dur}ms ease-out forwards`;
 
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(), dur+100);
@@ -368,3 +368,4 @@ yesBtn.addEventListener("click", () => {
 
 </body>
 </html>
+
