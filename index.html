@@ -30,7 +30,7 @@
       background:
         linear-gradient(#000000aa,#000000aa),
         url("photo3.jpg") center/cover no-repeat;
-      transition: opacity 5s ease-in-out;
+      transition: opacity 8s ease-in-out;
     }
     .card.fade-out {
       opacity: 0;
@@ -132,7 +132,7 @@
       z-index:10000;
       background:url("photo2.jpg") center/cover no-repeat;
       opacity:0;
-      transition: opacity 5s ease;
+      transition: opacity 8s ease;
     }
 
     #page2.show { opacity:1; }
@@ -199,15 +199,18 @@ const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const page2 = document.getElementById("page2");
 
-// Limit movement to max 10cm (≈377px) upward only
-const initialTop = 0;
-const initialLeft = 220;
-const maxY = 377;
-
 function moveNo() {
+  const buttonWidth = noBtn.offsetWidth;
+  const buttonHeight = noBtn.offsetHeight;
+
+  const maxX = window.innerWidth - buttonWidth;
+  const maxY = window.innerHeight - buttonHeight;
+
+  const randomX = Math.random() * maxX;
   const randomY = Math.random() * maxY;
-  noBtn.style.top = `${initialTop - randomY}px`;
-  noBtn.style.left = `${initialLeft}px`;
+
+  noBtn.style.left = `${randomX}px`;
+  noBtn.style.top = `${randomY}px`;
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
@@ -274,5 +277,6 @@ yesBtn.onclick = () => {
 
 </body>
 </html>
+
 
 
