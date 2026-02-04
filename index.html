@@ -89,7 +89,7 @@ h1{font-size:42px;margin-bottom:12px;}
   pointer-events:none;
 }
 
-/* -------- HEART TRANSITION (BIG) -------- */
+/* -------- HEART TRANSITION (BIG, CIRCLE FILL) -------- */
 .heartBig{
   position:fixed;
   width:120px;
@@ -98,7 +98,7 @@ h1{font-size:42px;margin-bottom:12px;}
   background: var(--c,#ff4d88);
   pointer-events:none;
   z-index:9999;
-  opacity:.95;
+  opacity:1;
 }
 
 .heartBig::before,
@@ -110,14 +110,21 @@ h1{font-size:42px;margin-bottom:12px;}
   background:inherit;
   border-radius:50%;
 }
-
 .heartBig::before{ top:-50%; left:0; }
 .heartBig::after{ left:50%; top:0; }
 
 @keyframes fillHearts{
-  to{
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.6);
+  0%{
+    transform: translate(-50%,-50%) rotate(-45deg) scale(0.4);
     opacity:1;
+  }
+  70%{
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
+    opacity:1;
+  }
+  100%{
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(-45deg) scale(1.55);
+    opacity:0;
   }
 }
 
@@ -129,7 +136,10 @@ h1{font-size:42px;margin-bottom:12px;}
   place-items:center;
   z-index:10000;
   background:url("photo2.jpg") center/cover no-repeat;
+  opacity:0;                 /* fade in under hearts */
+  transition: opacity 220ms ease;
 }
+#page2.show{ opacity:1; }
 
 #page2 .overlay{
   position:absolute;
@@ -163,6 +173,7 @@ h1{font-size:42px;margin-bottom:12px;}
   z-index:2;
 }
 
+/* Hearts on page 2 */
 #page2 .heartTop,
 #page2 .heartBR{
   position:absolute;
@@ -177,10 +188,13 @@ h1{font-size:42px;margin-bottom:12px;}
   z-index:3;
 }
 
+/* BOTTOM-RIGHT HEART: behind text, moved ~1.5cm down + ~1cm right */
 #page2 .heartBR{
   width:120px;height:120px;
-  bottom:-20px;right:8%;
-  z-index:1; /* behind text */
+  bottom:-20px;
+  right:8%;
+  transform: translate(38px, 57px) rotate(-45deg); /* ~1cm right, ~1.5cm down */
+  z-index:1;
 }
 
 #page2 .heartTop::before,
@@ -193,7 +207,6 @@ h1{font-size:42px;margin-bottom:12px;}
   background:#ff0000;
   border-radius:50%;
 }
-
 #page2 .heartTop::before,
 #page2 .heartBR::before{top:-50%;left:0;}
 #page2 .heartTop::after,
@@ -204,28 +217,30 @@ h1{font-size:42px;margin-bottom:12px;}
 <body>
 
 <div class="card">
-<h1>Will you be my Valentine? 💘</h1>
-<p class="love-text">
-I love your energy, the way you light up every room without even trying.<br>
-I love how your eyes sparkle when you talk about something that excites you.<br>
-Being with you feels warm, safe, and real.<br>
-So… will you make February 14th our day?
-</p>
+  <h1>Will you be my Valentine? 💘</h1>
 
-<div class="cta" id="cta">
-<button class="yes" id="yesBtn">YES 😍</button>
-<button class="no" id="noBtn">NO</button>
-</div>
+  <p class="love-text">
+    I love your energy, the way you light up every room without even trying.<br>
+    I love how your eyes sparkle when you talk about something that excites you, like the whole world pauses just to listen.<br>
+    I love the way you allow yourself to be vulnerable with me, how you trust me enough to show your soft side.<br>
+    Being with you feels warm, safe, and real, and I wouldn’t trade that feeling for anything.<br>
+    So… will you make February 14th our day?
+  </p>
+
+  <div class="cta" id="cta">
+    <button class="yes" id="yesBtn">YES 😍</button>
+    <button class="no" id="noBtn">NO</button>
+  </div>
 </div>
 
 <div id="page2">
-<div class="overlay"></div>
-<div class="big">
-<div class="heartTop"></div>
-<div class="heartBR"></div>
-<div class="my">MY</div>
-<div class="val">VALENTINE</div>
-</div>
+  <div class="overlay"></div>
+  <div class="big">
+    <div class="heartTop"></div>
+    <div class="heartBR"></div>
+    <div class="my">MY</div>
+    <div class="val">VALENTINE</div>
+  </div>
 </div>
 
 <script>
@@ -235,41 +250,76 @@ const cta=document.getElementById("cta");
 const page2=document.getElementById("page2");
 
 function moveNo(){
-const rect=cta.getBoundingClientRect();
-noBtn.style.left=Math.random()*(rect.width-120)+"px";
-noBtn.style.top=Math.random()*40+"px";
+  const rect=cta.getBoundingClientRect();
+  const maxX=Math.max(0, rect.width-120);
+  const maxY=Math.max(0, rect.height-56);
+  noBtn.style.left=(Math.random()*maxX)+"px";
+  noBtn.style.top=(Math.random()*maxY)+"px";
 }
 noBtn.addEventListener("mouseenter",moveNo);
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("touchstart",e=>{e.preventDefault();moveNo();},{passive:false});
 
-/* BIG HEART FILL */
+/* Circle fill with enough hearts to cover screen, then fade out */
 function heartFill(){
-const colors=["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1"];
-const btn=yesBtn.getBoundingClientRect();
-const cx=btn.left+btn.width/2;
-const cy=btn.top+btn.height/2;
+  const colors=["#ff4d88","#ff66a3","#ff85b3","#ff99c2","#ffb3d1","#ffc2dc"];
+  const btn=yesBtn.getBoundingClientRect();
+  const cx=btn.left+btn.width/2;
+  const cy=btn.top+btn.height/2;
 
-for(let i=0;i<45;i++){
-let h=document.createElement("div");
-h.className="heartBig";
-h.style.left=cx+"px";
-h.style.top=cy+"px";
-h.style.setProperty("--c",colors[Math.floor(Math.random()*colors.length)]);
+  const w=window.innerWidth, h=window.innerHeight;
+  const area=w*h;
 
-const angle=Math.random()*Math.PI*2;
-const dist=window.innerWidth*0.9;
-h.style.setProperty("--dx",Math.cos(angle)*dist+"px");
-h.style.setProperty("--dy",Math.sin(angle)*dist+"px");
+  // Bigger hearts need fewer; this targets "full screen" coverage visually.
+  const baseSize=120*120;
+  const count=Math.max(70, Math.min(160, Math.round(area/(baseSize*1.05)))); // clamp for performance
 
-h.style.animation="fillHearts 1.2s ease-out forwards";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),1400);
-}
+  // Put page2 behind hearts immediately (no black flash)
+  page2.style.display="grid";
+  requestAnimationFrame(()=> page2.classList.add("show"));
+
+  const maxR=Math.hypot(w, h)*0.92;
+  const dur=1350; // hearts fade out at the end of this animation
+
+  for(let i=0;i<count;i++){
+    const heart=document.createElement("div");
+    heart.className="heartBig";
+
+    // Slight size variance for better "fill"
+    const s=92 + Math.random()*70; // 92..162
+    heart.style.width=s+"px";
+    heart.style.height=s+"px";
+
+    heart.style.left=cx+"px";
+    heart.style.top=cy+"px";
+    heart.style.setProperty("--c", colors[Math.floor(Math.random()*colors.length)]);
+
+    // Evenly spread angles + jitter, for a nice circular burst
+    const angle = (i / count) * Math.PI * 2 + (Math.random()*0.18 - 0.09);
+    const dist  = (0.55 + Math.random()*0.55) * maxR;
+
+    heart.style.setProperty("--dx", (Math.cos(angle)*dist)+"px");
+    heart.style.setProperty("--dy", (Math.sin(angle)*dist)+"px");
+
+    heart.style.animation = `fillHearts ${dur}ms ease-out forwards`;
+
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(), dur+80);
+  }
+
+  return dur;
 }
 
 yesBtn.onclick=()=>{
-yesBtn.innerText="MY VALENTINE 💘";
-heartFill();
-setTimeout(()=>{page2.style.display="grid";},1100);
+  yesBtn.disabled=true;
+  yesBtn.innerText="MY VALENTINE 💘";
+
+  const dur=heartFill();
+
+  // After hearts disappear, page2 is already there (just keep it)
+  setTimeout(()=>{}, dur);
+
+  if (navigator.vibrate) navigator.vibrate([40,30,40]);
 };
 </script>
 
