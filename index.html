@@ -204,6 +204,20 @@
     opacity: 0;
   }
 }
+#cornerImg {
+  position: fixed;
+  bottom: -40px;   /* sai por baixo */
+  left: -20px;     /* sai para fora do ecrã */
+  width: clamp(140px, 18vw, 260px);
+  z-index: 9000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#cornerImg.show {
+  opacity: 1;
+}
   </style>
 </head>
 <body>
@@ -222,6 +236,8 @@
   </div>
 </div>
 <div id="finalText">YOU ARE NOW MY VALENTINE ENTI QALBI</div>
+<img id="cornerImg" src="photo11.jpg" alt="">
+  
 <script>
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
@@ -310,7 +326,8 @@ setTimeout(() => {
   balloonHearts();
 
   setTimeout(() => {
-    document.getElementById("finalText").classList.add("show");
+     document.getElementById("finalText").classList.add("show");
+  document.getElementById("cornerImg").classList.add("show");
     floatingLove(); 
   }, 1200);
 
@@ -339,6 +356,7 @@ setTimeout(() => {
 
 </body>
 </html>
+
 
 
 
