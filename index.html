@@ -162,7 +162,7 @@
   text-align: center;
   font-family: "Times New Roman", serif;
   font-weight: 900;
-  font-size: clamp(42px, 7vw, 120px);
+  font-size: clamp(60px, 10vw, 200px);
   color: #ff0000;
   opacity: 0;
   z-index: 1;
@@ -173,12 +173,36 @@
     -3px  3px 0 #000,
      3px  3px 0 #000;
   transition: opacity 1.5s ease;
+  line-height: 0.95;
 }
 
 #finalText.show {
   opacity: 1;
   z-index: 10000;
   display: grid;
+}
+    .floating {
+  position: fixed;
+  bottom: -60px;
+  font-size: 32px;
+  pointer-events: none;
+  animation: floatUp 6s linear forwards;
+  z-index: 5000;
+  opacity: 0.9;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-110vh) scale(1.2);
+    opacity: 0;
+  }
 }
   </style>
 </head>
@@ -279,22 +303,43 @@ yesBtn.onclick = () => {
   yesBtn.disabled = true;
   yesBtn.innerText = "MY VALENTINE 💘";
   document.querySelector(".card").classList.add("fade-out");
-setTimeout(()=> {
-  document.querySelector(".card").style.display="none";
-}, 800);
+setTimeout(() => {
+  document.querySelector(".card").style.display = "none";
+  }, 3000);
 
   balloonHearts();
 
   setTimeout(() => {
     document.getElementById("finalText").classList.add("show");
+    floatingLove(); 
   }, 1200);
 
   if (navigator.vibrate) navigator.vibrate([40,30,40]);
 };
+  function floatingLove() {
+  const icons = ["❤️","💗","💖","🌹","🌺"];
+  
+  const interval = setInterval(() => {
+    const el = document.createElement("div");
+    el.className = "floating";
+    el.innerText = icons[Math.floor(Math.random()*icons.length)];
+    el.style.left = Math.random()*100 + "vw";
+    el.style.fontSize = (24 + Math.random()*36) + "px";
+
+    document.body.appendChild(el);
+
+    setTimeout(() => el.remove(), 6000);
+  }, 250);
+
+  // parar depois de 8 segundos
+  setTimeout(() => clearInterval(interval), 8000);
+}
+  
 </script>
 
 </body>
 </html>
+
 
 
 
