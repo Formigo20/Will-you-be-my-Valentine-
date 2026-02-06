@@ -224,7 +224,7 @@
   width: clamp(80px, 10vw, 160px);
   pointer-events: none;
   opacity: 0;
-  z-index: 8000;
+  z-index: 11000;   /* maior que o texto */
   transition: opacity 1s ease;
   filter: drop-shadow(0 8px 18px #00000066);
 }
@@ -234,8 +234,16 @@
 }
 
 .gif1 { left: 2vw; top: 20vh; }
-.gif2 { right: 3vw; top: 25vh; }
-.gif3 { left: 4vw; bottom: 18vh; }
+.gif2 {
+  right: 3vw;
+  top: 25vh;
+  width: clamp(120px, 16vw, 240px); /* MAIOR */
+}
+.gif3 {
+  left: 40vw;     /* nova posição */
+  top: 55vh;
+  width: clamp(140px, 18vw, 260px); /* AINDA MAIOR */
+}
 .gif4 { right: 2vw; bottom: 15vh; }
   </style>
 </head>
@@ -382,6 +390,7 @@ setTimeout(() => {
 
 </body>
 </html>
+
 
 
 
