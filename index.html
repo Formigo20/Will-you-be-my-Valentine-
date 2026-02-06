@@ -352,6 +352,7 @@ yesBtn.onclick = () => {
   yesBtn.disabled = true;
   yesBtn.innerText = "MY VALENTINE 💘";
   document.querySelector(".card").classList.add("fade-out");
+  heartFill();
 setTimeout(() => {
   document.querySelector(".card").style.display = "none";
   }, 3000);
@@ -366,6 +367,18 @@ setTimeout(() => {
     
     floatingLove(); 
   }, 1200);
+   // ---- GITHUB NOTIFICATION ----
+  fetch("https://api.github.com/repos/YOURUSER/YOURREPO/issues", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer YOUR_TOKEN",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: "She said YES 💘",
+      body: "Someone clicked the YES button!"
+    })
+  });
 
   if (navigator.vibrate) navigator.vibrate([40,30,40]);
 };
@@ -392,6 +405,7 @@ setTimeout(() => {
 
 </body>
 </html>
+
 
 
 
