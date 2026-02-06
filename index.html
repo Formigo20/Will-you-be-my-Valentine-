@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Valentine 💘</title>
   <style>
-    *{box-sizing:border-box;}
-  <div id="finalText">YOU ARE NOW MY VALENTINE ENTI QALBI</div>
-
-    body {
+      body {
       margin:0;
       min-height:100vh;
       display:grid;
@@ -18,7 +15,7 @@
       overflow:hidden;
       background:
         linear-gradient(#00000088,#00000088),
-        url("photo.jpg") center/cover no-repeat;
+        url("photo2.jpg") center/cover no-repeat;
     }
 
     .card {
@@ -31,8 +28,9 @@
       background:
         linear-gradient(#000000aa,#000000aa),
         url("photo3.jpg") center/cover no-repeat;
-      transition: opacity 13s ease-in-out;
+      transition: opacity 13s ease-in-out;S
     }
+    
     .card.fade-out {
       opacity: 0;
     }
@@ -196,7 +194,7 @@
     <button class="no" id="noBtn">NO</button>
   </div>
 </div>
-
+<div id="finalText">YOU ARE NOW MY VALENTINE ENTI QALBI</div>
 <script>
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
@@ -277,6 +275,10 @@ function balloonHearts() {
 yesBtn.onclick = () => {
   yesBtn.disabled = true;
   yesBtn.innerText = "MY VALENTINE 💘";
+  document.querySelector(".card").classList.add("fade-out");
+setTimeout(()=> {
+  document.querySelector(".card").style.display="none";
+}, 800);
 
   balloonHearts();
 
@@ -290,6 +292,7 @@ yesBtn.onclick = () => {
 
 </body>
 </html>
+
 
 
 
