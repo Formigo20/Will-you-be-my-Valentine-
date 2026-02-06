@@ -218,6 +218,25 @@
 #cornerImg.show {
   opacity: 1;
 }
+    /* GIFS LATERAIS */
+.gifSide {
+  position: fixed;
+  width: clamp(80px, 10vw, 160px);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 8000;
+  transition: opacity 1s ease;
+  filter: drop-shadow(0 8px 18px #00000066);
+}
+
+.gifSide.show {
+  opacity: 1;
+}
+
+.gif1 { left: 2vw; top: 20vh; }
+.gif2 { right: 3vw; top: 25vh; }
+.gif3 { left: 4vw; bottom: 18vh; }
+.gif4 { right: 2vw; bottom: 15vh; }
   </style>
 </head>
 <body>
@@ -237,6 +256,10 @@
 </div>
 <div id="finalText">YOU ARE NOW MY VALENTINE ENTI QALBI</div>
 <img id="cornerImg" src="photo11.jpg" alt="">
+<img class="gifSide gif1" src="photo4.gif" alt="">
+<img class="gifSide gif2" src="photo5.gif" alt="">
+<img class="gifSide gif3" src="photo6.gif" alt="">
+<img class="gifSide gif4" src="photo7.gif" alt="">
   
 <script>
 const yesBtn = document.getElementById("yesBtn");
@@ -326,8 +349,11 @@ setTimeout(() => {
   balloonHearts();
 
   setTimeout(() => {
-     document.getElementById("finalText").classList.add("show");
-  document.getElementById("cornerImg").classList.add("show");
+    document.getElementById("finalText").classList.add("show");
+    document.getElementById("cornerImg").classList.add("show");
+     document.querySelectorAll(".gifSide")
+    .forEach(el => el.classList.add("show"));
+    
     floatingLove(); 
   }, 1200);
 
@@ -356,6 +382,7 @@ setTimeout(() => {
 
 </body>
 </html>
+
 
 
 
